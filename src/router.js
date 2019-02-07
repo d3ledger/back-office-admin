@@ -18,6 +18,11 @@ const defaultRouter = new Router({
           path: '',
           name: 'dashboard',
           component: lazyView('DashboardPage')
+        },
+        {
+          path: 'health',
+          name: 'health',
+          component: lazyView('HealthPage')
         }
       ]
     },

@@ -2,7 +2,7 @@
   <div @mouseenter.passive="isCollapsed = false" @mouseleave.passive="isCollapsed = true">
     <el-menu
       :router="true"
-      :class="'el-side-menu el-menu--collapse'"
+      :class="isCollapsed ? 'el-side-menu el-menu--collapse' : 'el-side-menu'"
       text-color="#a2a2a2"
       background-color="#1e1e1e"
       active-text-color="#000"
@@ -10,6 +10,14 @@
       <h1 class="logo">
         <img src="@/assets/logo-small.svg" alt="D3"/>
       </h1>
+      <el-menu-item index="/">
+        <SvgIcon iconName="Main" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Main</span>
+      </el-menu-item>
+      <el-menu-item index="/health">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Health</span>
+      </el-menu-item>
       <el-menu-item class="bottom-icon" index="/logout" @click="onLogout">
         <SvgIcon iconName="Logout" iconClass="menu-icon"><LogoutIcon/></SvgIcon>
         <span slot="title">Logout</span>
@@ -22,6 +30,7 @@
 import { mapActions } from 'vuex'
 import SvgIcon from '@/components/common/SvgIcon'
 import LogoutIcon from '@/assets/menu/logout'
+import ServerIcon from '@/assets/menu/server.vue'
 
 export default {
   name: 'Menu',
@@ -38,7 +47,8 @@ export default {
   },
   components: {
     SvgIcon,
-    LogoutIcon
+    LogoutIcon,
+    ServerIcon
   },
   methods: {
     ...mapActions([
