@@ -1,7 +1,3 @@
-/*
- * Copyright D3 Ledger, Inc. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
 import {
   commands,
   signWithArrayOfKeys,
@@ -202,16 +198,6 @@ const setAccountQuorum = (privateKeys, currentQuorum, {
   newCommandServiceOptions(privateKeys, currentQuorum), {
     accountId,
     quorum
-  }
-)
-
-const createDomain = (privateKeys, currentQuorum, {
-  domainId,
-  defaultRole
-}) => commands.createDomain(
-  newCommandServiceOptions(privateKeys, currentQuorum), {
-    domainId,
-    defaultRole
   }
 )
 

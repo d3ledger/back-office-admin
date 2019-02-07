@@ -1,7 +1,4 @@
-/*
- * Copyright D3 Ledger, Inc. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
+import healthNodes from './healthNodes'
 
 const NOTARY_URL = process.env.VUE_APP_NOTARY_URL || 'http://localhost:8083/'
 const REPORT_SERVICE_URL = process.env.VUE_APP_REPORT_URL || 'http://localhost:8090'
@@ -14,5 +11,6 @@ export default {
   account: NOTARY_ACCOUNT,
   ETH: {
     relayRegistrationIrohaAccount: RELAY_ACCOUNT_KEY
-  }
+  },
+  healthNodes
 }
