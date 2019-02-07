@@ -85,7 +85,9 @@ const mutations = {
 const actions = {
   getRelays ({ commit }) {
     commit(types.GET_RELAYS_BY_ACCOUNT_REQUEST)
-    return irohaUtil.getAccount(configFile.account)
+    return irohaUtil.getAccount({
+      accountId: configFile.account
+    })
       .then(account => commit(types.GET_RELAYS_BY_ACCOUNT_SUCCESS, account))
       .catch(err => {
         commit(types.GET_RELAYS_BY_ACCOUNT_FAILURE)
