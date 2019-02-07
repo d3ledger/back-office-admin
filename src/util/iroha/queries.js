@@ -1,7 +1,3 @@
-/*
- * Copyright D3 Ledger, Inc. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
 import { queries } from 'iroha-helpers'
 import { newQueryServiceOptions } from './util'
 
@@ -13,31 +9,11 @@ const getAccount = ({
   }
 )
 
-const getRawAccount = ({
-  accountId
-}) => queries.getRawAccount(
-  newQueryServiceOptions(), {
-    accountId
-  }
-)
-
 const getAccountAssets = ({
   accountId
 }) => queries.getAccountAssets(
   newQueryServiceOptions(), {
     accountId
-  }
-)
-
-const getAccountDetail = ({
-  accountId,
-  key,
-  writer
-}) => queries.getAccountDetail(
-  newQueryServiceOptions(), {
-    accountId,
-    key,
-    writer
   }
 )
 
@@ -75,20 +51,8 @@ const getSignatories = ({
   }
 )
 
-const getTransactions = ({
-  txHashes
-}) => queries.getTransactions(
-  newQueryServiceOptions(), {
-    txHashesList: txHashes
-  }
-)
-
-const getBlock = ({
-  height
-}) => queries.getBlock(
-  newQueryServiceOptions(), {
-    height
-  }
+const getPendingTransactions = () => queries.getPendingTransactions(
+  newQueryServiceOptions()
 )
 
 const getRawPendingTransactions = () => queries.getRawPendingTransactions(
@@ -111,8 +75,7 @@ export {
   getAccountTransactions,
   getAccountDetail,
   getSignatories,
-  getTransactions,
-  getBlock,
+  getPendingTransactions,
   getRawPendingTransactions,
   getAssetInfo
 }
