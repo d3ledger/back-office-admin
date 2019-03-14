@@ -1,22 +1,22 @@
 [
     {
         "title": "Bitcoin Registration",
-        "url": "http: //localhost:7072/health"
+        "url": "http://localhost:7072/health"
     },
     {
         "title": "Bitcoin Withdrowal and Deposit",
-        "url": "http: //localhost:7074/health"
+        "url": "http://localhost:7074/health"
     },
     {
         "title": "Bitcoin Address Generation",
-        "url": "http: //localhost:7071/health"
+        "url": "http://localhost:7071/health"
     },
     {
         "title": "Etherium registration",
-        "url": "http: //localhost:8083/actuator/health"
+        "url": "http://localhost:8083/actuator/health"
     },
     {
         "title": "Etherium withdrowal",
-        "url": "http: //localhost:8084/actuator/health"
+        "url": "http://localhost:8084/actuator/health"
     }
 ]
