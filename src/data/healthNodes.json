@@ -12,11 +12,15 @@
         "url": "http://localhost:7071/health"
     },
     {
-        "title": "Etherium registration",
+        "title": "Ethereum registration",
         "url": "http://localhost:8083/actuator/health"
     },
     {
-        "title": "Etherium withdrowal",
+        "title": "Ethereum withdrowal",
         "url": "http://localhost:8084/actuator/health"
+    },
+    {
+        "title": "Ethereum deposit",
+        "url": "http://0.0.0.0:20000/actuator/health"
     }
 ]
