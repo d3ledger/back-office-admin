@@ -21,6 +21,6 @@
     },
     {
         "title": "Ethereum deposit",
-        "url": "http://0.0.0.0:20000/actuator/health"
+        "url": "http://localhost:20000/actuator/health"
     }
 ]

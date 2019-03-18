@@ -12,7 +12,7 @@
             <div class="header">
               <span>Services health</span>
               <el-button @click="checkHealth">
-                Обновить
+                Refresh
               </el-button>
             </div>
             <el-row>
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
 import config from '@/data/config'
 
@@ -56,11 +55,11 @@ export default {
   name: 'dashboard-page',
   data () {
     return {
-      healthNodes
+      healthNodes,
+      refreshInterval: null
     }
   },
   methods: {
-    ...mapActions([]),
     checkHealth () {
       for (let i = 0; i < this.healthNodes.length; i++) {
         this.healthNodes[i].status = 'Checking'
@@ -78,11 +77,14 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters([])
-  },
   created () {
-    this.checkHealth()
+    this.refreshInterval = setInterval(() => {
+      this.checkHealth()
+    }, 5 * 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.refreshInterval)
+    this.refreshInterval = null
   }
 }
 </script>
