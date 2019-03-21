@@ -717,36 +717,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.3.tgz#d15003f2084d2ca320837b223bb0f4d06a27ae35"
   integrity sha512-wUYkGfJDPqzzfo5FE3rQic0jy/8FLCWFcCaZr0iTqN8BshI0bPk358uCMXU6Y5rWS3uwBTbkmJ+FjPuy72rV4w==
 
-"@hapi/address@2.x.x":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
-  integrity sha512-mV6T0IYqb0xL1UALPFplXYQmR0twnXG0M6jUswpquqT2sD12BOiCiLy3EvMp/Fy7s3DZElC4/aPjEjo2jeZpvw==
-
-"@hapi/hoek@6.x.x":
-  version "6.2.4"
-  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-6.2.4.tgz#4b95fbaccbfba90185690890bdf1a2fbbda10595"
-  integrity sha512-HOJ20Kc93DkDVvjwHyHawPwPkX44sIrbXazAUDiUXaY2R9JwQGo2PhFfnQtdrsIe4igjG2fPgMra7NYw7qhy0A==
-
-"@hapi/joi@^15.0.1":
-  version "15.0.3"
-  resolved "https://registry.yarnpkg.com/@hapi/joi/-/joi-15.0.3.tgz#e94568fd859e5e945126d5675e7dd218484638a7"
-  integrity sha512-z6CesJ2YBwgVCi+ci8SI8zixoj8bGFn/vZb9MBPbSyoxsS2PnWYjHcyTM17VLK6tx64YVK38SDIh10hJypB+ig==
-  dependencies:
-    "@hapi/address" "2.x.x"
-    "@hapi/hoek" "6.x.x"
-    "@hapi/topo" "3.x.x"
-
-"@hapi/topo@3.x.x":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-3.1.0.tgz#5c47cd9637c2953db185aa957a27bcb2a8b7a6f8"
-  integrity sha512-gZDI/eXOIk8kP2PkUKjWu9RW8GGVd2Hkgjxyr/S7Z+JF+0mr7bAlbw+DkTRxnD580o8Kqxlnba9wvqp5aOHBww==
-  dependencies:
-    "@hapi/hoek" "6.x.x"
-
-"@improbable-eng/grpc-web@^0.9.1", "@improbable-eng/grpc-web@^0.9.5":
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/@improbable-eng/grpc-web/-/grpc-web-0.9.5.tgz#36b41723206dce30ebdba0cdd1a7cde7a99da5de"
-  integrity sha512-8iSJnn3SPwxaWqXO6ia6yNk1EAFVSAkM3aWnPZYud+LU0ghzoKNld1s//qlGxOWC2rwJCXBLhxEZ6iU93DuEmg==
+"@improbable-eng/grpc-web@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@improbable-eng/grpc-web/-/grpc-web-0.8.0.tgz#c7a9a23560c6667f75cf0e69d5a672aa026683d4"
+  integrity sha512-0K9owV6BGGGVNkGXifsnMAE0Xoy675qqMdr8id4FOILbwxLk9HsJtZKz/zxfRXev1YY9JcAHm4vpZmbr6O+lyw==
   dependencies:
     browser-headers "^0.4.0"
 
@@ -5336,15 +5310,13 @@ ipaddr.js@^1.5.2:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.8.1.tgz#fa4b79fa47fd3def5e3b159825161c0a519c9427"
   integrity sha1-+kt5+kf9Pe9eOxWYJRYcClGclCc=
 
-iroha-helpers@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/iroha-helpers/-/iroha-helpers-0.5.5.tgz#43e15705fa95a001e5d0f1ae280b28fd10798a6f"
-  integrity sha512-64Si1emQ8jS5SAx7ha8pmkCmCA2xyhySIVjQE9f1g2ky442NaQSwpzImT81W21+Var+lseXGn61bJPn4uqM7Nw==
+iroha-helpers@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/iroha-helpers/-/iroha-helpers-0.6.2.tgz#33677692b4e693d9f70afe467a9601882c1ca70a"
+  integrity sha512-/yL8Y3PXK3EflQjbMSyyWV6YsCZMvXI4cwHafhQ7ugGa/ms7l9WQ7cGzjRR3s9P90sA1zN7zu4IzdZkOfyNHhA==
   dependencies:
-    "@babel/polyfill" "^7.4.4"
-    "@improbable-eng/grpc-web" "^0.9.1"
-    babel-preset-minify "^0.5.0"
-    buffer "^5.2.1"
+    "@improbable-eng/grpc-web" "^0.8.0"
+    buffer "^5.2.0"
     ed25519.js "^1.3.0"
     google-protobuf "^3.6.1"
     grpc-web-client "^0.7.0"
