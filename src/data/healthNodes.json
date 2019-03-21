@@ -1,7 +1,7 @@
 [
     {
         "title": "Bitcoin Registration",
-        "url": "http://localhost:7072/health"
+        "url": "http://localhost:8086/health"
     },
     {
         "title": "Bitcoin Withdrowal and Deposit",
@@ -12,11 +12,15 @@
         "url": "http://localhost:7071/health"
     },
     {
-        "title": "Etherium registration",
+        "title": "Ethereum registration",
         "url": "http://localhost:8083/actuator/health"
     },
     {
-        "title": "Etherium withdrowal",
+        "title": "Ethereum withdrowal",
         "url": "http://localhost:8084/actuator/health"
+    },
+    {
+        "title": "Ethereum deposit",
+        "url": "http://localhost:20000/actuator/health"
     }
 ]
