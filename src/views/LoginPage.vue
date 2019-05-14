@@ -75,7 +75,7 @@ import inputValidation from '@/components/mixins/inputValidation'
 import listOfNodes from '@/data/nodes.json'
 
 export default {
-  name: 'login',
+  name: 'login-page',
   mixins: [
     inputValidation({
       username: 'nameDomain',

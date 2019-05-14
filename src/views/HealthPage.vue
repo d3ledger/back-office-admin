@@ -52,7 +52,7 @@ import config from '@/data/config'
 const healthNodes = config.healthNodes.map(n => ({ ...n, status: '' }))
 
 export default {
-  name: 'dashboard-page',
+  name: 'health-page',
   data () {
     return {
       healthNodes,

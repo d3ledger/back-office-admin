@@ -11,7 +11,7 @@
 import { lazyComponent } from '@router'
 
 export default {
-  name: 'Home',
+  name: 'home-page',
   components: {
     Menu: lazyComponent('Home/Menu')
   },
