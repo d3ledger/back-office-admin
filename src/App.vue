@@ -118,4 +118,37 @@ button.el-dialog__headerbtn {
 .fullheight {
   height: 100%;
 }
+
+.fullwidth {
+  width: 100%
+}
+
+.dialog-form_buttons-block {
+  display: flex;
+  justify-content: space-between;
+}
+.dialog-form_buttons {
+  height: 3.5rem;
+  width: 13.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.dialog-form_buttons.action {
+  background-color: #041820;
+  color: #ffffff;
+  border: 1px solid #041820;
+}
+.dialog-form_buttons.action.is-disabled {
+  opacity: 0.8;
+}
+.dialog-form_buttons.action:hover {
+  background-color: #041820;
+}
+.dialog-form_buttons.close {
+  color: #000000;
+  border: 1px solid #1d1f20;
+}
+.dialog-form_buttons.close:hover {
+  background-color: rgba(0, 0, 0, 0.025);
+}
 </style>

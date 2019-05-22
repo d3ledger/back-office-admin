@@ -11,7 +11,10 @@
             :body-style="{ padding: '1.5rem' }" class="fullheight">
             <div class="header">
               <span>Services health</span>
-              <el-button @click="checkHealth">
+              <el-button
+                class="action_button"
+                @click="checkHealth"
+              >
                 Refresh
               </el-button>
             </div>
