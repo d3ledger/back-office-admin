@@ -33,6 +33,9 @@ const state = initialState()
 const getters = {
   nodeIp (state) {
     return state.nodeIp
+  },
+  accountId (state) {
+    return state.accountId
   }
 }
 

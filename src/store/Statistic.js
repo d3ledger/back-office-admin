@@ -320,11 +320,11 @@ const actions = {
     }
   },
 
-  async getAccountAssets ({ commit }) {
+  async getAccountAssets ({ commit, getters }) {
     commit(types.GET_ACCOUNT_ASSETS_REQUEST)
     try {
       const assets = await irohaUtil.getAccountAssets({
-        accountId: 'test@notary'
+        accountId: getters.accountId
       })
       commit(types.GET_ACCOUNT_ASSETS_SUCCESS, assets)
     } catch (error) {
