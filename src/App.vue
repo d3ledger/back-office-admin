@@ -6,25 +6,20 @@
 
 <script>
 import debounce from 'lodash/debounce'
-// import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
-
-  // computed: mapState({
-  //   connectionError: state => state.Account.connectionError
-  // }),
-
-  // watch: {
-  //   connectionError (to) {
-  //     if (to) this.showConnectionErrorMessage(to)
-  //   }
-  // },
-
   methods: {
+    ...mapActions([
+      'getConfiguration'
+    ]),
     showConnectionErrorMessage: debounce(function () {
       this.$message.error(`connection error: Please check IP address OR your internet connection`)
     }, 1000)
+  },
+  created () {
+    this.getConfiguration()
   }
 }
 </script>
