@@ -194,9 +194,20 @@ const setAccountQuorum = (privateKeys, currentQuorum, {
   }
 )
 
+const createDomain = (privateKeys, currentQuorum, {
+  domainId,
+  defaultRole
+}) => commands.createDomain(
+  newCommandServiceOptions(privateKeys, currentQuorum), {
+    domainId,
+    defaultRole
+  }
+)
+
 export {
   createAccount,
   createAsset,
+  createDomain,
   transferAsset,
   addSignatory,
   removeSignatory,

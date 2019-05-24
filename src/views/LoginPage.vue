@@ -1,10 +1,11 @@
 <template>
-  <el-container class="login-container">
+  <el-container class="auth-container">
     <div style="margin-top: 2.5rem">
       <img src="@/assets/logo.svg" alt="D3"/>
     </div>
-    <el-card class="login-form-container">
-      <el-form @keyup.enter.native="onSubmit" class="login-form" ref="form" :model="form" :rules="rules" label-position="top">
+    <span class="auth-welcome">Welcome to D3 AP</span>
+    <div class="auth-form-container">
+      <el-form @keyup.enter.native="onSubmit" class="auth-form" ref="form" :model="form" :rules="rules" label-position="top">
         <el-form-item label="Private key:" prop="privateKey">
           <el-row type="flex" justify="space-between">
             <el-col :span="20">
@@ -21,6 +22,7 @@
               :show-file-list="false"
               :on-change="onFileChosen"
               :disabled="isLoading"
+              class="auth-form_upload"
             >
               <el-button>
                 <fa-icon icon="upload" />
@@ -54,9 +56,9 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item class="login-button-container">
+        <el-form-item class="auth-button-container">
           <el-button
-            class="fullwidth black"
+            class="auth-button fullwidth black"
             type="primary"
             @click="onSubmit"
             :loading="isLoading"
@@ -65,7 +67,7 @@
           </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
   </el-container>
 </template>
 

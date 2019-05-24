@@ -10,7 +10,7 @@
           <el-card
             :body-style="{ padding: '0' }" class="fullheight">
             <div class="header">
-              <span>D3</span>
+              <span>Dashboard</span>
             </div>
             <div class="settings">
               <el-row class="settings_item">
@@ -37,6 +37,54 @@
                   </el-row>
                 </div>
               </el-row>
+              <el-row class="settings_item">
+                <div class="settings_item-header">
+                  <span class="settings_item-header-title">Avaliable assets</span>
+                    <el-button
+                      data-cy="createAsset"
+                      class="action_button"
+                      @click="isCreateAssetModalVisible = true">Add asset
+                    </el-button>
+                </div>
+                <div>
+                  <el-row class="relay_number">
+                    <p class="list-title">Iroha anchored</p>
+                    <el-col>
+                      <p
+                        v-for="(v, i) in avaliableAssets.iroha"
+                        :key="i"
+                      >
+                        {{ v.toUpperCase() }}
+                      </p>
+                    </el-col>
+                  </el-row>
+                  <el-row class="relay_number">
+                    <p class="list-title">Ether anchored</p>
+                    <el-col>
+                      <p
+                        v-for="(v, i) in avaliableAssets.eth"
+                        :key="i"
+                      >
+                        {{ v.toUpperCase() }}
+                      </p>
+                    </el-col>
+                  </el-row>
+                  <el-row
+                    v-if="accountAssets.length"
+                    class="relay_number"
+                  >
+                    <p class="list-title">Others</p>
+                    <el-col>
+                      <p
+                        v-for="(v, i) in accountAssets"
+                        :key="i"
+                      >
+                        {{ v.assetId.toUpperCase() }} - {{ v.balance}}
+                      </p>
+                    </el-col>
+                  </el-row>
+                </div>
+              </el-row>
             </div>
           </el-card>
         </el-col>
@@ -59,24 +107,36 @@
         </el-button>
       </div>
     </el-dialog>
+    <CreateAssetModal
+      :isVisible.sync="isCreateAssetModalVisible"
+    />
   </el-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { lazyComponent } from '@router'
 
 export default {
   name: 'dashboard-page',
+  components: {
+    CreateAssetModal: lazyComponent('common/modals/CreateAssetModal')
+  },
   data () {
     return {
       isRelayFormVisible: false,
-      isRelayLoading: false
+      isRelayLoading: false,
+
+      isCreateAssetModalVisible: false
     }
   },
   methods: {
     ...mapActions([
       'getRelays',
-      'addRelay'
+      'getEthAssets',
+      'getIrohaAssets',
+      'addRelay',
+      'getAccountAssets'
     ]),
     onAddRelay () {
       this.isRelayLoading = true
@@ -91,11 +151,16 @@ export default {
   computed: {
     ...mapGetters([
       'freeRelays',
-      'registeredRelays'
+      'registeredRelays',
+      'avaliableAssets',
+      'accountAssets'
     ])
   },
   created () {
     this.getRelays()
+    this.getIrohaAssets()
+    this.getEthAssets()
+    this.getAccountAssets()
   }
 }
 </script>
