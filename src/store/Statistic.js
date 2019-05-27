@@ -107,8 +107,11 @@ const mutations = {
 
   [types.GET_IROHA_ANCHORED_ASSETS_REQUEST] (state) {},
   [types.GET_IROHA_ANCHORED_ASSETS_SUCCESS] (state, object) {
-    const assets = Object.values(object[ETH_TOKEN_SERVICE])
-    Vue.set(state.assets, 'iroha', assets)
+    const accountObject = object[ETH_TOKEN_SERVICE]
+    if (accountObject) {
+      const assets = Object.values(object[ETH_TOKEN_SERVICE])
+      Vue.set(state.assets, 'iroha', assets)
+    }
   },
   [types.GET_IROHA_ANCHORED_ASSETS_FAILURE] (state, err) {
     handleError(state, err)
@@ -116,8 +119,11 @@ const mutations = {
 
   [types.GET_ETH_ANCHORED_ASSETS_REQUEST] (state) {},
   [types.GET_ETH_ANCHORED_ASSETS_SUCCESS] (state, object) {
-    const assets = Object.values(object[ETH_TOKEN_SERVICE])
-    Vue.set(state.assets, 'eth', assets)
+    const accountObject = object[ETH_TOKEN_SERVICE]
+    if (accountObject) {
+      const assets = Object.values(object[ETH_TOKEN_SERVICE])
+      Vue.set(state.assets, 'eth', assets)
+    }
   },
   [types.GET_ETH_ANCHORED_ASSETS_FAILURE] (state, err) {
     handleError(state, err)
