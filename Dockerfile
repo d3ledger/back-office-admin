@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN apk add git
 RUN yarn
-RUN yarn build
+RUN yarn build --mode=development
 
 FROM nginx:1.15
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html 
