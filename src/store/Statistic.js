@@ -1,7 +1,3 @@
-/*
- * Copyright D3 Ledger, Inc. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
 import Vue from 'vue'
 import map from 'lodash/fp/map'
 import flatMap from 'lodash/fp/flatMap'
@@ -237,17 +233,17 @@ const actions = {
       precision,
       assetType,
       initialAmount,
-      privateKeys
+      privateKey
     } = form
 
     commit(types.CREATE_ASSET_REQUEST)
 
     try {
-      await dispatch('checkCreateDomain', { assetType, privateKeys })
-      await dispatch('checkCreateAsset', { shortName, assetType, precision, privateKeys })
-      await dispatch('addAssetQuantity', { shortName, assetType, initialAmount, privateKeys })
-      await dispatch('checkCreateAccount', { assetType, privateKeys })
-      await dispatch('checkSetDetail', { assetType, longName, shortName, privateKeys })
+      await dispatch('checkCreateDomain', { assetType, privateKey })
+      await dispatch('checkCreateAsset', { shortName, assetType, precision, privateKey })
+      await dispatch('addAssetQuantity', { shortName, assetType, initialAmount, privateKey })
+      await dispatch('checkCreateAccount', { assetType, privateKey })
+      await dispatch('checkSetDetail', { assetType, longName, shortName, privateKey })
       await dispatch('getAccountAssets')
       commit(types.CREATE_ASSET_SUCCESS)
     } catch (error) {
@@ -256,10 +252,10 @@ const actions = {
     }
   },
 
-  async checkCreateDomain ({ commit, getters }, { assetType, privateKeys }) {
+  async checkCreateDomain ({ commit }, { assetType, privateKey }) {
     commit(types.CHECK_DOMAIN_REQUEST)
     try {
-      await irohaUtil.createDomain(privateKeys, getters.irohaQuorum, {
+      await irohaUtil.createDomain([ privateKey ], 1, {
         domainId: assetType,
         defaultRole: 'eth_token_list_storage'
       })
@@ -271,10 +267,10 @@ const actions = {
     }
   },
 
-  async checkCreateAsset ({ commit, getters }, { shortName, assetType, precision, privateKeys }) {
+  async checkCreateAsset ({ commit }, { shortName, assetType, precision, privateKey }) {
     commit(types.CHECK_ASSET_REQUEST)
     try {
-      await irohaUtil.createAsset(privateKeys, getters.irohaQuorum, {
+      await irohaUtil.createAsset([ privateKey ], 1, {
         assetName: shortName,
         domainId: assetType,
         precision
@@ -286,10 +282,10 @@ const actions = {
     }
   },
 
-  async addAssetQuantity ({ commit, getters }, { shortName, assetType, initialAmount, privateKeys }) {
+  async addAssetQuantity ({ commit }, { shortName, assetType, initialAmount, privateKey }) {
     commit(types.ADD_ASSET_QUANTITY_REQUEST)
     try {
-      irohaUtil.addAssetQuantity(privateKeys, getters.irohaQuorum, {
+      irohaUtil.addAssetQuantity([ privateKey ], 1, {
         assetId: `${shortName}#${assetType}`,
         amount: initialAmount
       })
@@ -299,10 +295,10 @@ const actions = {
       throw error
     }
   },
-  async checkCreateAccount ({ commit, getters }, { assetType, privateKeys }) {
+  async checkCreateAccount ({ commit }, { assetType, privateKey }) {
     commit(types.CHECK_ACCOUNT_REQUEST)
     try {
-      await irohaUtil.createAccount(privateKeys, getters.irohaQuorum, {
+      await irohaUtil.createAccount([ privateKey ], 1, {
         accountName: `assets_list`,
         domainId: assetType,
         publicKey: '0000000000000000000000000000000000000000000000000000000000000000'
@@ -315,10 +311,10 @@ const actions = {
     }
   },
 
-  async checkSetDetail ({ commit, getters }, { assetType, longName, shortName, privateKeys }) {
+  async checkSetDetail ({ commit }, { assetType, longName, shortName, privateKey }) {
     commit(types.SET_ACCOUNT_DETAIL_REQUEST)
     try {
-      await irohaUtil.setAccountDetail(privateKeys, getters.irohaQuorum, {
+      await irohaUtil.setAccountDetail([ privateKey ], 1, {
         accountId: `assets_list@${assetType}`,
         key: longName,
         value: shortName

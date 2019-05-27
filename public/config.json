@@ -11,40 +11,27 @@
   }],
   "health": [{
       "title": "Bitcoin Registration",
-      "url": "localhost:8086/actuator/health"
+      "url": "localhost:8086/health"
     },
     {
-      "title": "Bitcoin withdrawal and Deposit",
-      "url": "localhost:7074/actuator/health"
+      "title": "Bitcoin Withdrowal and Deposit",
+      "url": "localhost:7074/health"
     },
     {
       "title": "Bitcoin Address Generation",
-      "url": "localhost:7071/actuator/health"
+      "url": "localhost:7071/health"
     },
     {
       "title": "Ethereum registration",
       "url": "localhost:8083/actuator/health"
     },
     {
-      "title": "Ethereum withdrawal",
+      "title": "Ethereum withdrowal",
       "url": "localhost:8084/actuator/health"
     },
     {
       "title": "Ethereum deposit",
       "url": "localhost:20000/actuator/health"
     }
-  ],
-  "relays": {
-    "ETH": {
-      "value": "localhost:8083"
-    },
-    "BTC": {
-      "value": "localhost:8086"
-    }
-  },
-  "services": {
-    "data-collector-service": {
-      "value": "localhost:8087"
-    }
-  }
+  ]
 }

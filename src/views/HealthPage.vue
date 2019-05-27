@@ -46,25 +46,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
-import config from '@/data/config'
-
-const healthNodes = config.healthNodes.map(n => ({ ...n, status: '' }))
 
 export default {
   name: 'dashboard-page',
   data () {
     return {
-      healthNodes,
       refreshInterval: null
     }
+  },
+  computed: {
+    ...mapGetters([
+      'healthNodes'
+    ])
   },
   methods: {
     checkHealth () {
       for (let i = 0; i < this.healthNodes.length; i++) {
         this.healthNodes[i].status = 'Checking'
         try {
-          axios.get(this.healthNodes[i].url)
+          const protocol = location.protocol
+          axios.get(`${protocol}//${this.healthNodes[i].url}`)
             .then(() => {
               this.healthNodes[i].status = 'Working'
             })

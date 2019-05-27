@@ -142,8 +142,7 @@ button.el-dialog__headerbtn {
 /*
  * Input
  */
-
-.create-asset_form .el-input__inner {
+.el-input__inner {
   background-color: rgba(0, 0, 0, 0.04);
   color: rgba(0, 0, 0, 0.8);
   border: 1px solid #dcdfe6;
@@ -155,19 +154,19 @@ button.el-dialog__headerbtn {
   font-size: 1rem;
 }
 
-.create-asset_form .el-input__inner:focus {
+.el-input__inner:focus {
   border: 1px solid #dcdfe6;
   color: rgba(0, 0, 0, 0.8);
   background-color: #ffffff;
   opacity: 1;
 }
 
-.create-asset_form .el-form-item {
+.el-form-item {
   height: 4.4rem;
   margin-bottom: 32px;
 }
 
-.create-asset_form .el-form-item__label {
+.el-form-item__label {
   line-height: 1;
   position: relative;
   top: 1.5rem;
@@ -175,18 +174,19 @@ button.el-dialog__headerbtn {
   margin-left: 1.2rem;
   font-size: 0.8rem;
   opacity: 0.56;
-  color: rgba(0, 0, 0, 0.8);;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 0 !important;
 }
 
-.create-asset_form .el-input--suffix input {
-  padding-top: 0px;
+.el-input--suffix input {
+  padding-top: 1.2rem;
 }
 
-.create-asset_form .el-input-group__append {
+.el-input-group__append {
   background-color: #2d2d2d;
 }
 
-.create-asset_form .el-input-group__append input {
+.el-input-group__append input {
   font-weight: normal
 }
 /*
@@ -344,9 +344,5 @@ button.el-dialog__headerbtn {
 .el-loading-spinner
 .circular circle {
   stroke: #f56c6c;
-}
-
-.approval_form-desc .key_representation {
-  word-break: break-all;
 }
 </style>
