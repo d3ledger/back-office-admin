@@ -74,9 +74,26 @@
         class="approval_form-item-clearm"
         label="Private key"
       >
-        <el-input
-          v-model="form.privateKey"
-        />
+        <el-row type="flex" justify="space-between">
+          <el-col :span="20">
+            <el-input
+              name="privateKey"
+              v-model="form.privateKey"
+            />
+          </el-col>
+
+          <el-upload
+            action=""
+            :auto-upload="false"
+            :show-file-list="false"
+            :on-change="onFileChosen"
+            class="approval_form-upload"
+          >
+            <el-button>
+              <fa-icon icon="upload" />
+            </el-button>
+          </el-upload>
+        </el-row>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -148,9 +165,12 @@ export default {
       }
 
       this.createAsset({
-        ...others,
+        assetType: others.assetType,
+        longName: others.longName.toLowerCase(),
+        shortName: others.shortName.toLowerCase(),
         precision: precisionFormatted,
-        initialAmount: initialAmountFormatted.toString()
+        initialAmount: initialAmountFormatted.toString(),
+        privateKey: others.privateKey
       })
         .then(() => {
           this.$message.success('New asset created!')
@@ -173,11 +193,36 @@ export default {
         assetType: '',
         initialAmount: 0
       }
+    },
+    onFileChosen (file, fileList) {
+      const reader = new FileReader()
+
+      reader.onload = (ev) => {
+        this.form.privateKey = (ev.target.result || '').trim()
+      }
+
+      reader.readAsText(file.raw)
     }
   }
 }
 </script>
 
 <style scoped>
+.approval_form-upload .el-button,
+.approval_form-upload .el-button:focus {
+  width: 3.8rem;
+  height: 4.5rem;
+  border: solid 1px #dcdfe6;
+  background-color: rgba(0, 0, 0, 0.04) ;
+  color: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  font-size: 1.2rem;
+  border-radius: 0.3rem;
+}
+
+.approval_form-upload .el-button:hover {
+  border-color: #000000;
+  color: #000000;
+}
 
 </style>
