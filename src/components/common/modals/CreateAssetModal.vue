@@ -198,7 +198,7 @@ export default {
       const reader = new FileReader()
 
       reader.onload = (ev) => {
-        this.form.privateKey = (ev.target.result || '').trim()
+        this.$set(this.form, 'privateKey', (ev.target.result || '').trim())
       }
 
       reader.readAsText(file.raw)
