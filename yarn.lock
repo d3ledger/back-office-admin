@@ -5310,7 +5310,7 @@ ipaddr.js@^1.5.2:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.8.1.tgz#fa4b79fa47fd3def5e3b159825161c0a519c9427"
   integrity sha1-+kt5+kf9Pe9eOxWYJRYcClGclCc=
 
-iroha-helpers@^0.6.13:
+iroha-helpers@^0.6.13-beta.0:
   version "0.6.13"
   resolved "https://registry.yarnpkg.com/iroha-helpers/-/iroha-helpers-0.6.13.tgz#e448039e4bd5fe3d826139fef7239327bc21a39e"
   integrity sha512-ZPMXcVP71jIaYa1oLrsXMEdZM4gIykFAwxyK+mnGul1bAuhaJWH5fwY5xYaiALAI1TSrWSrcwK8JF+1swxt6rg==
