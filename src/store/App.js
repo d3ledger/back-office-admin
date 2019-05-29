@@ -4,7 +4,7 @@ import flatMap from 'lodash/fp/flatMap'
 import concat from 'lodash/fp/concat'
 import fromPairs from 'lodash/fp/fromPairs'
 import flow from 'lodash/fp/flow'
-import { grpc } from 'grpc-web-client'
+import { grpc } from '@improbable-eng/grpc-web'
 import configUtil from '@util/config-util'
 
 const types = flow(
