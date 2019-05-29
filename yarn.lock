@@ -717,7 +717,33 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.3.tgz#d15003f2084d2ca320837b223bb0f4d06a27ae35"
   integrity sha512-wUYkGfJDPqzzfo5FE3rQic0jy/8FLCWFcCaZr0iTqN8BshI0bPk358uCMXU6Y5rWS3uwBTbkmJ+FjPuy72rV4w==
 
-"@improbable-eng/grpc-web@^0.9.1":
+"@hapi/address@2.x.x":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
+  integrity sha512-mV6T0IYqb0xL1UALPFplXYQmR0twnXG0M6jUswpquqT2sD12BOiCiLy3EvMp/Fy7s3DZElC4/aPjEjo2jeZpvw==
+
+"@hapi/hoek@6.x.x":
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-6.2.4.tgz#4b95fbaccbfba90185690890bdf1a2fbbda10595"
+  integrity sha512-HOJ20Kc93DkDVvjwHyHawPwPkX44sIrbXazAUDiUXaY2R9JwQGo2PhFfnQtdrsIe4igjG2fPgMra7NYw7qhy0A==
+
+"@hapi/joi@^15.0.1":
+  version "15.0.3"
+  resolved "https://registry.yarnpkg.com/@hapi/joi/-/joi-15.0.3.tgz#e94568fd859e5e945126d5675e7dd218484638a7"
+  integrity sha512-z6CesJ2YBwgVCi+ci8SI8zixoj8bGFn/vZb9MBPbSyoxsS2PnWYjHcyTM17VLK6tx64YVK38SDIh10hJypB+ig==
+  dependencies:
+    "@hapi/address" "2.x.x"
+    "@hapi/hoek" "6.x.x"
+    "@hapi/topo" "3.x.x"
+
+"@hapi/topo@3.x.x":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-3.1.0.tgz#5c47cd9637c2953db185aa957a27bcb2a8b7a6f8"
+  integrity sha512-gZDI/eXOIk8kP2PkUKjWu9RW8GGVd2Hkgjxyr/S7Z+JF+0mr7bAlbw+DkTRxnD580o8Kqxlnba9wvqp5aOHBww==
+  dependencies:
+    "@hapi/hoek" "6.x.x"
+
+"@improbable-eng/grpc-web@^0.9.1", "@improbable-eng/grpc-web@^0.9.5":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@improbable-eng/grpc-web/-/grpc-web-0.9.5.tgz#36b41723206dce30ebdba0cdd1a7cde7a99da5de"
   integrity sha512-8iSJnn3SPwxaWqXO6ia6yNk1EAFVSAkM3aWnPZYud+LU0ghzoKNld1s//qlGxOWC2rwJCXBLhxEZ6iU93DuEmg==
@@ -1456,7 +1482,7 @@ async-validator@~1.8.1:
   dependencies:
     babel-runtime "6.x"
 
-async@2.6.1, async@^2.1.4, async@^2.3.0:
+async@2.6.1, async@^2.1.4, async@^2.3.0, async@^2.5.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
   integrity sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
@@ -2659,11 +2685,6 @@ commander@^2.18.0, commander@^2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
-
-commander@~2.20.3:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 common-tags@1.8.0:
   version "1.8.0"
@@ -5310,12 +5331,13 @@ ipaddr.js@^1.5.2:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.8.1.tgz#fa4b79fa47fd3def5e3b159825161c0a519c9427"
   integrity sha1-+kt5+kf9Pe9eOxWYJRYcClGclCc=
 
-iroha-helpers@^0.6.13-beta.0:
-  version "0.6.13"
-  resolved "https://registry.yarnpkg.com/iroha-helpers/-/iroha-helpers-0.6.13.tgz#e448039e4bd5fe3d826139fef7239327bc21a39e"
-  integrity sha512-ZPMXcVP71jIaYa1oLrsXMEdZM4gIykFAwxyK+mnGul1bAuhaJWH5fwY5xYaiALAI1TSrWSrcwK8JF+1swxt6rg==
+iroha-helpers@0.6.14:
+  version "0.6.14"
+  resolved "https://registry.yarnpkg.com/iroha-helpers/-/iroha-helpers-0.6.14.tgz#d20e33b1e495f12f28ce5811718609d82d86d601"
+  integrity sha512-xqgvJLwZn5Otznny96AwyntYDHoEJsWAG8Mh63BAsJvdPwFDsxEE2WkzMZ6m+5aqfOlA+QqxsTrfew4QosSJOg==
   dependencies:
     "@improbable-eng/grpc-web" "^0.9.1"
+    babel-preset-minify "^0.5.0"
     buffer "^5.2.1"
     ed25519.js "^1.3.0"
     google-protobuf "^3.7.1"
@@ -5325,6 +5347,7 @@ iroha-helpers@^0.6.13-beta.0:
     lodash.flow "^3.5.0"
     lodash.isequal "^4.5.0"
     lodash.isplainobject "^4.0.6"
+    rxjs "^6.5.2"
 
 is-absolute-url@^2.0.0:
   version "2.1.0"
@@ -8751,6 +8774,13 @@ rxjs@^6.1.0:
   version "6.3.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.3.3.tgz#3c6a7fa420e844a81390fb1158a9ec614f4bad55"
   integrity sha512-JTWmoY9tWCs7zvIk/CvRjhjGaOd+OVBM987mxFo+OW66cGpdKjZcpmc74ES1sB//7Kl/PAe8+wEakuhG4pcgOw==
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
+  integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
   dependencies:
     tslib "^1.9.0"
 
