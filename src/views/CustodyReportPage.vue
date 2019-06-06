@@ -1,7 +1,3 @@
-<!--
-  Copyright D3 Ledger, Inc. All Rights Reserved.
-  SPDX-License-Identifier: Apache-2.0
--->
 <template>
   <el-container class="fullheight">
     <el-main class="fullheight">
@@ -51,56 +47,33 @@
               </el-form>
             </div>
             <el-row>
-              <el-tabs type="card">
-                <el-tab-pane label="By user">
-                  <el-row>
-                    <el-table
-                      :data="reportByUser"
-                      class="report_table"
-                    >
-                      <el-table-column type="expand">
-                        <template slot-scope="scope">
-                          <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
-                            <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
-                          </div>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        prop="accountId"
-                        label="Account"
-                        min-width="180">
-                      </el-table-column>
-                    </el-table>
-                  </el-row>
-                  <el-row>
-                    <el-pagination
-                      class="pagination"
-                      background
-                      :page-size="reportForm.pageSize"
-                      layout="prev, pager, next"
-                      :total="total"
-                    >
-                    </el-pagination>
-                  </el-row>
-                </el-tab-pane>
-                <el-tab-pane label="By asset">
-                  <el-table
-                    :data="reportByAsset"
-                    class="report_table"
-                  >
-                    <el-table-column
-                      prop="0"
-                      label="Asset"
-                      min-width="180">
-                    </el-table-column>
-                    <el-table-column
-                      prop="1"
-                      label="Fee amount"
-                      min-width="180">
-                    </el-table-column>
-                  </el-table>
-                </el-tab-pane>
-              </el-tabs>
+              <el-table
+                :data="reportData"
+                class="report_table"
+              >
+                <el-table-column type="expand">
+                  <template slot-scope="scope">
+                    <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
+                      <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="accountId"
+                  label="Account"
+                  min-width="180">
+                </el-table-column>
+              </el-table>
+            </el-row>
+            <el-row>
+              <el-pagination
+                class="pagination"
+                background
+                :page-size="reportForm.pageSize"
+                layout="prev, pager, next"
+                :total="total"
+              >
+              </el-pagination>
             </el-row>
           </el-card>
         </el-col>
@@ -127,8 +100,7 @@ export default {
         pageSize: 10
       },
 
-      reportByUser: [],
-      reportByAsset: [],
+      reportData: [],
       totalPages: 0,
       total: 0
     }
@@ -164,18 +136,7 @@ export default {
             return item
           }).filter(item => item.assetCustody.length > 0)
 
-          this.reportByUser = data
-          this.reportByAsset = Object.entries(data.reduce((result, current) => {
-            current.assetCustody.forEach(item => {
-              if (result[item[0]]) {
-                result[item[0]] += item[1]
-              } else {
-                result[item[0]] = item[1]
-              }
-            })
-
-            return result
-          }, {}))
+          this.reportData = data
           this.totalPages = res.data.pages
           this.total = res.data.total
         })

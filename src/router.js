@@ -27,6 +27,11 @@ const defaultRouter = new Router({
           path: 'health',
           name: 'health',
           component: lazyView('HealthPage')
+        },
+        {
+          path: 'custody-report',
+          name: 'custody-report',
+          component: lazyView('CustodyReportPage')
         }
       ]
     },
