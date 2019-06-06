@@ -71,7 +71,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Tooltip,
-  Switch
+  Switch,
+  Pagination
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -105,6 +106,7 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Tooltip)
 Vue.use(Switch)
+Vue.use(Pagination)
 Vue.use(Loading.directive)
 const MsgBox = MessageBox
 Vue.prototype.$prompt = MsgBox.prompt

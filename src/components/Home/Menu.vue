@@ -22,6 +22,10 @@
         <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
         <span class="title-left" slot="title">Health</span>
       </el-menu-item>
+      <el-menu-item index="/custody-report">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Custody report</span>
+      </el-menu-item>
       <el-menu-item class="bottom-icon" index="/logout" @click="onLogout">
         <SvgIcon iconName="Logout" iconClass="menu-icon"><LogoutIcon/></SvgIcon>
         <span slot="title">Logout</span>
