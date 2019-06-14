@@ -10,7 +10,7 @@
           <el-card
             :body-style="{ padding: '1.5rem' }" class="fullheight">
             <div class="header">
-              <span>Custody report</span>
+              <span>Exchange report</span>
             </div>
             <div class="search">
               <el-form
@@ -54,13 +54,13 @@
                       :data="reportByUser"
                       class="report_table"
                     >
-                      <el-table-column type="expand">
+                      <!-- <el-table-column type="expand">
                         <template slot-scope="scope">
                           <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
                             <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
                           </div>
                         </template>
-                      </el-table-column>
+                      </el-table-column> -->
                       <el-table-column
                         prop="accountId"
                         label="Account"
@@ -149,29 +149,30 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
 
-      const url = `${config.reportUrl}/report/billing/custody/domain`
+      const url = `${config.reportUrl}/report/billing/exchange/domain`
       const formattedString = querystring.stringify(params)
 
       axios.get(`${url}?${formattedString}`)
         .then(res => {
-          const data = res.data.accounts.map(item => {
-            item.assetCustody = Object.entries(item.assetCustody)
+          // const data = res.data.accounts.map(item => {
+          //   item.assetCustody = Object.entries(item.assetCustody)
 
-            return item
-          }).filter(item => item.assetCustody.length > 0)
+          //   return item
+          // }).filter(item => item.assetCustody.length > 0)
+          console.log(res)
+          this.reportByUser = res
+          this.reportByAsset = res
+          // Object.entries(data.reduce((result, current) => {
+          //   current.assetCustody.forEach(item => {
+          //     if (result[item[0]]) {
+          //       result[item[0]] += item[1]
+          //     } else {
+          //       result[item[0]] = item[1]
+          //     }
+          //   })
 
-          this.reportByUser = data
-          this.reportByAsset = Object.entries(data.reduce((result, current) => {
-            current.assetCustody.forEach(item => {
-              if (result[item[0]]) {
-                result[item[0]] += item[1]
-              } else {
-                result[item[0]] = item[1]
-              }
-            })
-
-            return result
-          }, {}))
+          //   return result
+          // }, {}))
           this.totalPages = res.data.pages
           this.total = res.data.total
         })

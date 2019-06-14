@@ -32,6 +32,16 @@ const defaultRouter = new Router({
           path: 'custody-report',
           name: 'custody-report',
           component: lazyView('CustodyReportPage')
+        },
+        {
+          path: 'accounts-report',
+          name: 'accounts-report',
+          component: lazyView('AccountsReportPage')
+        },
+        {
+          path: 'exchange-report',
+          name: 'exchange-report',
+          component: lazyView('ExchangeReportPage')
         }
       ]
     },

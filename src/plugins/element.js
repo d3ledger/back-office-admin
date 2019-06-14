@@ -37,7 +37,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Tooltip,
-  Switch
+  Switch,
+  Tabs,
+  TabPane
 } from 'element-ui'
 
 Vue.use(Dialog)
@@ -69,6 +71,8 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Tooltip)
 Vue.use(Switch)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Loading.directive)
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$alert = MessageBox.alert
