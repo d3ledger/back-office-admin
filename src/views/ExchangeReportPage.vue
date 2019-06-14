@@ -47,76 +47,55 @@
               </el-form>
             </div>
             <el-row>
-              <el-tabs type="card">
-                <el-tab-pane label="By user">
-                  <el-row>
-                    <el-table
-                      :data="reportByUser"
-                      class="report_table"
-                    >
-                      <el-table-column
-                        prop="offerAccount"
-                        label="Offeraccount">
-                      </el-table-column>
-                      <el-table-column
-                        prop="offerAmount"
-                        label="Offer amount">
-                      </el-table-column>
-                      <el-table-column
-                        prop="offerFee"
-                        label="Offer fee">
-                      </el-table-column>
-                      <el-table-column
-                        prop="Offer asset"
-                        label="Account">
-                      </el-table-column>
-                      <el-table-column
-                        prop="requestAccount"
-                        label="Request account">
-                      </el-table-column>
-                      <el-table-column
-                        prop="requestAmount"
-                        label="request amount">
-                      </el-table-column>
-                      <el-table-column
-                        prop="requestFee"
-                        label="Request fee">
-                      </el-table-column>
-                      <el-table-column
-                        prop="requestAsset"
-                        label="Request asset">
-                      </el-table-column>
-                    </el-table>
-                  </el-row>
-                  <el-row>
-                    <el-pagination
-                      class="pagination"
-                      background
-                      :page-size="reportForm.pageSize"
-                      layout="prev, pager, next"
-                      :total="total"
-                    >
-                    </el-pagination>
-                  </el-row>
-                </el-tab-pane>
-                <el-tab-pane label="By asset">
-                  <el-table
-                    :data="reportByAsset"
-                    class="report_table"
-                  >
-                    <el-table-column
-                      prop="0"
-                      label="Asset"
-                      min-width="180">
-                    </el-table-column>
-                    <el-table-column
-                      prop="1"
-                      label="Fee amount"
-                      min-width="180">
-                    </el-table-column>
-                  </el-table>
-                </el-tab-pane>
-              </el-tabs>
+              <el-row>
+                <el-table
+                  :data="reportByUser"
+                  class="report_table"
+                >
+                  <el-table-column
+                    prop="offerAccount"
+                    label="Offeraccount">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerAmount"
+                    label="Offer amount">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerFee"
+                    label="Offer fee">
+                  </el-table-column>
+                  <el-table-column
+                    prop="Offer asset"
+                    label="Account">
+                  </el-table-column>
+                  <el-table-column
+                    prop="requestAccount"
+                    label="Request account">
+                  </el-table-column>
+                  <el-table-column
+                    prop="requestAmount"
+                    label="request amount">
+                  </el-table-column>
+                  <el-table-column
+                    prop="requestFee"
+                    label="Request fee">
+                  </el-table-column>
+                  <el-table-column
+                    prop="requestAsset"
+                    label="Request asset">
+                  </el-table-column>
+                </el-table>
+              </el-row>
+              <el-row>
+                <el-pagination
+                  class="pagination"
+                  background
+                  :page-size="reportForm.pageSize"
+                  layout="prev, pager, next"
+                  :total="total"
+                >
+                </el-pagination>
+              </el-row>
             </el-row>
           </el-card>
         </el-col>
