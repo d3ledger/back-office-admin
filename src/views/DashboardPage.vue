@@ -21,7 +21,6 @@
                 <div class="settings_item-header">
                   <span class="settings_item-header-title">Relays</span>
                     <el-button
-                      data-cy="editQuorum"
                       class="action_button"
                       @click="isRelayFormVisible = true">Add relay
                     </el-button>
@@ -103,11 +102,16 @@
       <div class="approval_form-desc">
         Are you sure want to add new relay?
       </div>
-      <div slot="footer">
+      <div
+        slot="footer"
+        class="dialog-form_buttons-block"
+      >
         <el-button
           @click="onAddRelay"
-          class="fullwidth black clickable"
-          :loading="isRelayLoading">ADD
+          class="dialog-form_buttons fullwidth action"
+          :loading="isRelayLoading"
+        >
+          ADD
         </el-button>
       </div>
     </el-dialog>

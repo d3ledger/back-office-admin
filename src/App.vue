@@ -132,217 +132,35 @@ button.el-dialog__headerbtn {
 }
 
 .fullwidth {
-  width: 100%;
+  width: 100%
 }
 
-.pointed {
-  cursor: pointer;
-}
-
-/*
- * Input
- */
-.el-input__inner {
-  background-color: rgba(0, 0, 0, 0.04);
-  color: rgba(0, 0, 0, 0.8);
-  border: 1px solid #dcdfe6;
-  font-weight: 700;
-  height: 4.5rem;
-  padding-left: 1.2rem;
-  padding-top: 1.2rem;
-  line-height: 0;
-  font-size: 1rem;
-}
-
-.el-input__inner:focus {
-  border: 1px solid #dcdfe6;
-  color: rgba(0, 0, 0, 0.8);
-  background-color: #ffffff;
-  opacity: 1;
-}
-
-.el-form-item {
-  height: 4.4rem;
-  margin-bottom: 32px;
-}
-
-.el-form-item__label {
-  line-height: 1;
-  position: relative;
-  top: 1.5rem;
-  z-index: 10;
-  margin-left: 1.2rem;
-  font-size: 0.8rem;
-  opacity: 0.56;
-  color: rgba(0, 0, 0, 0.8);
-  padding: 0 !important;
-}
-
-.el-input--suffix input {
-  padding-top: 1.2rem;
-}
-
-.el-input-group__append {
-  background-color: #2d2d2d;
-}
-
-.el-input-group__append input {
-  font-weight: normal
-}
-/*
- * Login and SignUp pages
- */
-.black-form_select-dropdown {
-  background-color: #363636;
-}
-
-.black-form_select-dropdown .el-select-dropdown__item {
-  background-color: #363636;
-  color: #ffffff;
-  opacity: 0.8;
-}
-
-.black-form_select-dropdown .el-select-dropdown__item:hover {
-  background-color: #424242;
-}
-.auth-container {
+.dialog-form_buttons-block {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 }
-
-.auth-welcome {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.auth-form .el-input.is-disabled .el-input__inner {
-  background-color: #363636;
-  color: rgba(255, 255, 255, 0.8);
-  border: solid 1px rgba(255, 255, 255, 0.4);
-}
-
-.auth-form .el-input__inner {
-  background-color: #363636;
-  color: rgba(255, 255, 255, 0.8);
-  border: solid 1px rgba(255, 255, 255, 0.4);
-  font-weight: 700;
-  height: 4.5rem;
-  padding-left: 1.2rem;
-  padding-top: 1.2rem;
-  line-height: 0;
-  font-size: 1rem;
-}
-
-.auth-form .el-input__inner:focus {
-  border-color: #ffffff;
-  color: #ffffff;
-  opacity: 1;
-}
-
-.auth-form .el-form-item {
-  height: 4.4rem;
-}
-
-.auth-form .el-form-item__label {
-  line-height: 1;
-  position: relative;
-  top: 2rem;
-  z-index: 10;
-  margin-left: 1.2rem;
+.dialog-form_buttons {
+  height: 3.5rem;
+  width: 13.5rem;
+  text-transform: uppercase;
   font-size: 0.8rem;
-  opacity: 0.56;
+}
+.dialog-form_buttons.action {
+  background-color: #041820;
   color: #ffffff;
+  border: 1px solid #041820;
 }
-
-.el-form-item__label::before {
-  display: none !important;
-}
-
-.auth-form_upload .el-button,
-.auth-form_upload .el-button:focus {
-  width: 3.8rem;
-  height: 4.5rem;
-  border: solid 1px rgba(255, 255, 255, 0.4);
-  background-color: #363636;
-  color: rgba(255, 255, 255, 0.4);
-  padding: 0;
-  font-size: 1.2rem;
-  border-radius: 0.3rem;
-}
-
-.auth-form_upload .el-button:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-}
-
-.auth-form_select .el-input__inner {
-  height: 4.5rem !important;
-}
-
-.auth-button {
-  margin-top: 1.5rem;
-  height: 3.8rem;
-  font-size: 0.8rem;
-  background-color: #000000;
-}
-
-.auth-form-container {
-  position: relative;
-  width: 28rem;
-  overflow: visible;
-  margin-top: 3rem;
-}
-
-.auth_goto-container {
-  margin-top: 4rem;
-}
-
-.auth_goto-container-title {
-  margin-bottom: 1.2rem;
-  font-size: 0.8rem;
-  color: #ffffff;
+.dialog-form_buttons.action.is-disabled {
   opacity: 0.8;
-  text-align: center;
 }
-
-.auth_goto-container-button {
-  height: 3.8rem;
-  font-size: 0.8rem;
-  border: solid 1px rgba(255, 255, 255, 0.4);
-  background-color: #363636;
-  margin-bottom: 1rem;
+.dialog-form_buttons.action:hover {
+  background-color: #041820;
 }
-
-.auth_goto-container-button:hover {
-  background-color: #363636;
-  border-color: #ffffff;
-  color: #ffffff;
+.dialog-form_buttons.close {
+  color: #000000;
+  border: 1px solid #1d1f20;
 }
-
-.text-overflow {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  margin-right: 1rem;
-}
-.border_success,
-.border_success .el-input__inner,
-.border_success .el-textarea__inner,
-.border_success .el-button {
-  border-color: #67c23a !important;
-}
-.border_fail,
-.border_fail .el-input__inner,
-.border_fail .el-textarea__inner,
-.border_fail .el-button {
-  border-color: #f56c6c !important;
-}
-
-.el-loading-mask.is-fullscreen
-.el-loading-spinner
-.circular circle {
-  stroke: #f56c6c;
+.dialog-form_buttons.close:hover {
+  background-color: rgba(0, 0, 0, 0.025);
 }
 </style>
