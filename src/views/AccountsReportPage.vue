@@ -117,7 +117,6 @@ export default {
 
       axios.get(`${url}?${formattedString}`)
         .then(res => {
-          console.log(res)
           const data = res.data.accounts
           this.reportData = data
           this.totalPages = res.data.pages
