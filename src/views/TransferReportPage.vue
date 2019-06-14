@@ -10,13 +10,41 @@
           <el-card
             :body-style="{ padding: '1.5rem' }" class="fullheight">
             <div class="header">
-              <span>Reports</span>
-              <el-button
-                class="action_button"
-                @click="isReportDialogVisible = true"
+              <span>Transfer report</span>
+            </div>
+            <div class="search">
+              <el-form
+                ref="form"
+                :model="reportForm"
+                style="width: 100%"
+                @submit.native.prevent
               >
-                New report
-              </el-button>
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item label="Domain">
+                      <el-input
+                        v-model="reportForm.domain"
+                        placeholder="Ex. d3"
+                        @input="updateReport()"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="11" :offset="1">
+                    <el-form-item label="Date">
+                      <el-date-picker
+                        v-model="reportForm.date"
+                        type="daterange"
+                        range-separator="-"
+                        start-placeholder="Start date"
+                        end-placeholder="End date"
+                        class="dialog_date"
+                        @change="updateReport()"
+                      >
+                      </el-date-picker>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
             </div>
             <el-row>
               <el-table
@@ -24,9 +52,24 @@
                 class="report_table"
               >
                 <el-table-column
-                  prop="title"
-                  label="Title"
-                  min-width="180">
+                  prop="fromAccount"
+                  label="Source account">
+                </el-table-column>
+                <el-table-column
+                  prop="toAccount"
+                  label="Destination account">
+                </el-table-column>
+                <el-table-column
+                  prop="amount"
+                  label="Amount">
+                </el-table-column>
+                <el-table-column
+                  prop="fee"
+                  label="Fee amount">
+                </el-table-column>
+                <el-table-column
+                  prop="asset"
+                  label="Asset">
                 </el-table-column>
               </el-table>
             </el-row>
@@ -43,48 +86,6 @@
         </el-col>
       </el-row>
     </el-main>
-    <el-dialog
-      title="Create new report"
-      width="450px"
-      :visible="isReportDialogVisible"
-      @close="isReportDialogVisible = false"
-      center
-    >
-      <el-form
-        label-position="top"
-      >
-        <el-form-item label="Domain">
-          <el-input v-model="reportForm.domain" placeholder="Ex. d3" />
-        </el-form-item>
-        <el-form-item label="Date">
-          <el-date-picker
-            v-model="reportForm.date"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="Start date"
-            end-placeholder="End date"
-            class="dialog_date">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div
-        slot="footer"
-        class="dialog-form_buttons-block"
-      >
-        <el-button
-          class="dialog-form_buttons action"
-          @click="getNewReport"
-        >
-          Confirm
-        </el-button>
-        <el-button
-          class="dialog-form_buttons close"
-          @click="isReportDialogVisible = false"
-        >
-          Cancel
-        </el-button>
-      </div>
-    </el-dialog>
   </el-container>
 </template>
 
@@ -111,7 +112,7 @@ export default {
     }
   },
   methods: {
-    getNewReport () {
+    updateReport () {
       const { date, ...params } = this.reportForm
 
       if (params.domain.length === 0) {
@@ -127,11 +128,19 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
       const formattedString = querystring.stringify(params)
-      const url = `${config.reportUrl}/report/billing/transferAsset`
+      const url = `${config.reportUrl}/report/billing/transferAsset/domain`
       axios.get(`${url}?${formattedString}`)
         .then(res => {
-          this.reportData = res.transfers
-          this.totalPages = res.total
+          this.reportData = res.data.transfers.map(item => {
+            let data = {}
+            data.fromAccount = item.transfer.srcAccountId
+            data.toAccount = item.transfer.destAccountId
+            data.asset = item.transfer.assetId
+            data.amount = item.transfer.amount
+            data.fee = item.fee.amount
+            return data
+          })
+          this.totalPages = res.data.total
         })
         .catch(err => console.log(err))
         .finally(() => {

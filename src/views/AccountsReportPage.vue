@@ -111,11 +111,13 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
 
+      // TODO: Fix to search by domain
       const url = `${config.reportUrl}/report/billing/registeredAccounts/system`
       const formattedString = querystring.stringify(params)
 
       axios.get(`${url}?${formattedString}`)
         .then(res => {
+          console.log(res)
           const data = res.data.accounts
           this.reportData = data
           this.totalPages = res.data.pages

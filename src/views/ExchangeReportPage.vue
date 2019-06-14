@@ -54,17 +54,37 @@
                       :data="reportByUser"
                       class="report_table"
                     >
-                      <!-- <el-table-column type="expand">
-                        <template slot-scope="scope">
-                          <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
-                            <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
-                          </div>
-                        </template>
-                      </el-table-column> -->
                       <el-table-column
-                        prop="accountId"
-                        label="Account"
-                        min-width="180">
+                        prop="offerAccount"
+                        label="Offeraccount">
+                      </el-table-column>
+                      <el-table-column
+                        prop="offerAmount"
+                        label="Offer amount">
+                      </el-table-column>
+                      <el-table-column
+                        prop="offerFee"
+                        label="Offer fee">
+                      </el-table-column>
+                      <el-table-column
+                        prop="Offer asset"
+                        label="Account">
+                      </el-table-column>
+                      <el-table-column
+                        prop="requestAccount"
+                        label="Request account">
+                      </el-table-column>
+                      <el-table-column
+                        prop="requestAmount"
+                        label="request amount">
+                      </el-table-column>
+                      <el-table-column
+                        prop="requestFee"
+                        label="Request fee">
+                      </el-table-column>
+                      <el-table-column
+                        prop="requestAsset"
+                        label="Request asset">
                       </el-table-column>
                     </el-table>
                   </el-row>
@@ -154,25 +174,19 @@ export default {
 
       axios.get(`${url}?${formattedString}`)
         .then(res => {
-          // const data = res.data.accounts.map(item => {
-          //   item.assetCustody = Object.entries(item.assetCustody)
+          this.reportByUser = res.data.batches.map(item => {
+            const data = {}
+            data.offerAccount = item.transactions[0].creatorId
+            data.offerFee = item.transactions[0].commands[0].amount
+            data.offerAmount = item.transactions[0].commands[1].amount
+            data.offerAsset = item.transactions[0].commands[1].assetId
+            data.requestAccount = item.transactions[0].commands[1].destAccountId
+            data.requestFee = item.transactions[1].commands[0].amount
+            data.requestAmount = item.transactions[1].commands[1].amount
+            data.requestAsset = item.transactions[1].commands[1].assetId
+            return data
+          })
 
-          //   return item
-          // }).filter(item => item.assetCustody.length > 0)
-          console.log(res)
-          this.reportByUser = res
-          this.reportByAsset = res
-          // Object.entries(data.reduce((result, current) => {
-          //   current.assetCustody.forEach(item => {
-          //     if (result[item[0]]) {
-          //       result[item[0]] += item[1]
-          //     } else {
-          //       result[item[0]] = item[1]
-          //     }
-          //   })
-
-          //   return result
-          // }, {}))
           this.totalPages = res.data.pages
           this.total = res.data.total
         })
