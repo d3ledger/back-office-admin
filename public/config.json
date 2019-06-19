@@ -33,5 +33,18 @@
       "title": "Ethereum deposit",
       "url": "localhost:20000/actuator/health"
     }
-  ]
+  ],
+  "relays": {
+    "ETH": {
+      "value": "localhost:8083"
+    },
+    "BTC": {
+      "value": "localhost:8086"
+    }
+  },
+  "services": {
+    "data-collector-service": {
+      "value": "localhost:8087"
+    }
+  }
 }
