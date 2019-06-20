@@ -25,6 +25,7 @@ const errorMessages = {
 
   _asset: 'Please select asset',
   _amount: 'Please provide correct amount',
+  _feeAmount: 'Please provide correct fee',
 
   _explorerQuery: 'Query is incorrect'
 }
@@ -103,6 +104,13 @@ export const _amount = (wallet) => (amount) => {
   else if (amount !== null && amount.length === 0) return false
   else if (gt(Number(amount))(Number(wallet.amount) - fee * Number(amount))) return false
   else if (lte(Number(amount))(0)) return false
+  return true
+}
+
+export const _feeAmount = (number) => {
+  if (isNaN(Number(number))) return false
+  else if (!/^(?![0.]+$)\d+(\.\d+)?$/.test(number)) return false
+  else if (number !== null && number.length === 0) return false
   return true
 }
 

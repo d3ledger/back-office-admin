@@ -22,9 +22,6 @@
         <el-row class="approval_form-desc">
           <p>
             Please enter your private key<span v-if="accountQuorum > 1">s</span>.
-            <span v-if="accountQuorum > 1 && !exchangeDialogVisible">
-              You need to enter at least {{ approvalDialogMinAmountKeys }} key.
-            </span>
           </p>
           <p v-if="approvalDialogSignatures.length">This transaction already has {{ approvalDialogSignatures.length }} signature<span v-if="approvalDialogSignatures.length > 1">s</span></p>
         </el-row>
@@ -181,7 +178,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'exchangeDialogVisible',
       'approvalDialogVisible',
       'approvalDialogSignatures',
       'approvalDialogMinAmountKeys',
@@ -256,14 +252,10 @@ export default {
       this.$set(this.approvalForm, 'numberOfValidKeys', tempNumberOfValidKeys)
     },
     disableConfig () {
-      if (this.exchangeDialogVisible) {
-        return !(this.approvalForm.numberOfValidKeys + this.approvalDialogSignatures.length === this.accountQuorum)
-      } else {
-        if (this.approvalDialogMinAmountKeys === 1) {
-          return this.approvalForm.numberOfValidKeys < 1
-        }
-        return !(this.approvalForm.numberOfValidKeys + this.approvalDialogSignatures.length === this.approvalDialogMinAmountKeys)
+      if (this.approvalDialogMinAmountKeys === 1) {
+        return this.approvalForm.numberOfValidKeys < 1
       }
+      return !(this.approvalForm.numberOfValidKeys + this.approvalDialogSignatures.length === this.approvalDialogMinAmountKeys)
     },
     resetForm () {
       this.$v.approvalForm.$reset()

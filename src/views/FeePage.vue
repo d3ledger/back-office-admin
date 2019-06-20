@@ -90,10 +90,20 @@
       <el-form class="quorum_form">
         <el-form-item>
           <el-input
-            v-model="feeAmount"
+            v-model="$v.feeAmount.$model"
+            :class="[
+              _isValid($v.feeAmount) ? 'border_success' : '',
+              _isError($v.feeAmount) ? 'border_fail' : ''
+            ]"
+            name="feeAmount"
+            placeholder="0"
             type="number"
-            min="0"
-          />
+          >
+          </el-input>
+          <span
+            v-if="_isError($v.feeAmount)"
+            class="el-form-item__error"
+          >{{ _showError($v.feeAmount) }}</span>
         </el-form-item>
       </el-form>
       <div
@@ -122,8 +132,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import {
+  _feeAmount,
   errorHandler
 } from '@/components/mixins/validation'
+import { required } from 'vuelidate/lib/validators'
 import { FeeTypes } from '@/data/consts'
 
 export default {
@@ -131,6 +143,14 @@ export default {
   mixins: [
     errorHandler
   ],
+  validations () {
+    return {
+      feeAmount: {
+        required,
+        _feeAmount
+      }
+    }
+  },
   data () {
     return {
       setFeeFormVisible: false,
@@ -164,19 +184,21 @@ export default {
     ]),
 
     handleEdit (asset, feeType) {
-      this.feeAmount = this.transferFee[asset.assetId] || 0
+      this.feeAmount = this.transferFee[asset.assetId] ? this.transferFee[asset.assetId].feeFraction : 0
       this.assetToSet = asset
       this.setFeeFormVisible = true
       this.feeType = feeType
     },
 
     editFee () {
-      this.settingFee = true
+      this.$v.feeAmount.$touch()
+      if (this.$v.feeAmount.$invalid) return
 
       this.openApprovalDialog()
         .then(privateKeys => {
           if (!privateKeys) return
-          console.log(this.setFee)
+
+          this.settingFee = true
           return this.setFee({
             privateKeys,
             asset: this.assetToSet.billingId,
