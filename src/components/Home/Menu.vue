@@ -16,7 +16,7 @@
       </h1>
       <el-menu-item index="/">
         <SvgIcon iconName="Main" iconClass="menu-icon"><ServerIcon/></SvgIcon>
-        <span class="title-left" slot="title">Main</span>
+        <span class="title-left" slot="title">Dashboard</span>
       </el-menu-item>
       <el-menu-item index="/health">
         <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
@@ -25,6 +25,18 @@
       <el-menu-item index="/custody-report">
         <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
         <span class="title-left" slot="title">Custody report</span>
+      </el-menu-item>
+      <el-menu-item index="/accounts-report">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Accounts report</span>
+      </el-menu-item>
+      <el-menu-item index="/exchange-report">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Exchange report</span>
+      </el-menu-item>
+      <el-menu-item index="/transfer-report">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Transfer report</span>
       </el-menu-item>
       <el-menu-item class="bottom-icon" index="/logout" @click="onLogout">
         <SvgIcon iconName="Logout" iconClass="menu-icon"><LogoutIcon/></SvgIcon>

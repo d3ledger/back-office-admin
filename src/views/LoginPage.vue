@@ -110,7 +110,7 @@ import { mapActions, mapGetters } from 'vuex'
 import inputValidation from '@/components/mixins/inputValidation'
 
 export default {
-  name: 'Login',
+  name: 'login-page',
   mixins: [
     messageMixin,
     errorHandler
