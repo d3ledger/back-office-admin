@@ -176,7 +176,7 @@ export default {
       this.openApprovalDialog()
         .then(privateKeys => {
           if (!privateKeys) return
-
+          console.log(this.setFee)
           return this.setFee({
             privateKeys,
             asset: this.assetToSet.billingId,

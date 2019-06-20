@@ -2,6 +2,7 @@
  * Copyright D3 Ledger, Inc. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+import Vue from 'vue'
 import map from 'lodash/fp/map'
 import flatMap from 'lodash/fp/flatMap'
 import concat from 'lodash/fp/concat'
@@ -14,7 +15,9 @@ import notaryUtil from '@util/notary-util'
 const types = flow(
   flatMap(x => [x + '_REQUEST', x + '_SUCCESS', x + '_FAILURE']),
   concat([
-    'RESET'
+    'RESET',
+    'APPROVAL_DIALOG_OPEN',
+    'APPROVAL_DIALOG_CLOSE'
   ]),
   map(x => [x, x]),
   fromPairs
@@ -26,6 +29,13 @@ const types = flow(
 
 function initialState () {
   return {
+    approvalDialog: {
+      isVisible: false,
+      signatures: [],
+      resolvePrompting: null,
+      rejectPrompting: null,
+      requiredMinAmount: 1
+    },
     health: [],
     nodes: [],
     freeEthRelaysNumber: 0,
@@ -39,7 +49,16 @@ function initialState () {
 const state = initialState()
 
 const getters = {
-  nodesIPs (state) {
+  approvalDialogVisible () {
+    return state.approvalDialog.isVisible
+  },
+  approvalDialogSignatures () {
+    return state.approvalDialog.signatures
+  },
+  approvalDialogMinAmountKeys () {
+    return state.approvalDialog.requiredMinAmount
+  },
+  nodeIPs (state) {
     return state.nodes
   },
   healthNodes (state) {
@@ -80,6 +99,22 @@ function handleError (state, err) {
 }
 
 const mutations = {
+  [types.APPROVAL_DIALOG_OPEN] (state, { resolvePrompting, rejectPrompting, signatures, requiredMinAmount }) {
+    Vue.set(state, 'approvalDialog', {
+      isVisible: true,
+      resolvePrompting,
+      rejectPrompting,
+      signatures,
+      requiredMinAmount
+    })
+  },
+
+  [types.APPROVAL_DIALOG_CLOSE] (state, privateKeys) {
+    Vue.set(state.approvalDialog, 'isVisible', false)
+    Vue.set(state.approvalDialog, 'signatures', [])
+    state.approvalDialog.resolvePrompting(privateKeys)
+  },
+
   [types.GET_FREE_ETH_RELAYS_REQUEST] (state) {},
 
   [types.GET_FREE_ETH_RELAYS_SUCCESS] (state, relays) {
@@ -116,6 +151,26 @@ const mutations = {
 }
 
 const actions = {
+  openApprovalDialog ({ commit }, { signatures = [], requiredMinAmount = 1 } = {}) {
+    let resolvePrompting, rejectPrompting
+    const prompting = new Promise((resolve, reject) => {
+      resolvePrompting = resolve
+      rejectPrompting = reject
+    })
+
+    commit(types.APPROVAL_DIALOG_OPEN, {
+      resolvePrompting,
+      rejectPrompting,
+      signatures,
+      requiredMinAmount
+    })
+
+    return prompting
+  },
+  closeApprovalDialog ({ commit }, privateKeys) {
+    commit(types.APPROVAL_DIALOG_CLOSE, privateKeys)
+  },
+
   getFreeEthRelaysNumber ({ commit, state }) {
     commit(types.GET_FREE_ETH_RELAYS_REQUEST)
 

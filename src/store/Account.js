@@ -28,6 +28,7 @@ function initialState () {
     accountId: '',
     nodeIp: irohaUtil.getStoredNodeIp(),
     accountInfo: {},
+    accountQuorum: 0,
     connectionError: null
   }
 }
@@ -40,6 +41,13 @@ const getters = {
   },
   accountId (state) {
     return state.accountId
+  },
+  accountQuorum (state) {
+    const quorum = find('user_quorum', state.accountInfo)
+    return quorum ? parseInt(quorum.user_quorum) : state.accountQuorum
+  },
+  irohaQuorum (state, getters) {
+    return state.accountInfo['brvs@brvs'] ? getters.accountQuorum * 2 : getters.accountQuorum
   }
 }
 
@@ -75,6 +83,7 @@ const mutations = {
   [types.LOGIN_SUCCESS] (state, account) {
     state.accountId = account.accountId
     state.accountInfo = JSON.parse(account.jsonData)
+    state.accountQuorum = account.quorum
   },
 
   [types.LOGIN_FAILURE] (state, err) {

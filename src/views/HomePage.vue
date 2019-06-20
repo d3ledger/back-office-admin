@@ -8,6 +8,7 @@
     <el-main style="width: 100%; height: 100vh; padding: 0; padding-left: 62px;">
       <router-view />
     </el-main>
+    <confirm-modal />
   </el-container>
 </template>
 
@@ -17,7 +18,8 @@ import { lazyComponent } from '@router'
 export default {
   name: 'home-page',
   components: {
-    Menu: lazyComponent('Home/Menu')
+    Menu: lazyComponent('Home/Menu'),
+    ConfirmModal: lazyComponent('common/modals/ConfirmModal')
   },
   data () {
     return {}

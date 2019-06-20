@@ -178,7 +178,7 @@ export default {
 
   computed: {
     ...mapGetters([
-      'nodesIPs'
+      'nodeIPs'
     ])
   },
 

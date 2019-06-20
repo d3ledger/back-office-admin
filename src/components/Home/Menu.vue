@@ -22,6 +22,14 @@
         <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
         <span class="title-left" slot="title">Health</span>
       </el-menu-item>
+      <el-menu-item index="/explorer">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Explorer</span>
+      </el-menu-item>
+      <el-menu-item index="/fee">
+        <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
+        <span class="title-left" slot="title">Fee</span>
+      </el-menu-item>
       <el-menu-item index="/custody-report">
         <SvgIcon iconName="Server" iconClass="menu-icon"><ServerIcon/></SvgIcon>
         <span class="title-left" slot="title">Custody report</span>
