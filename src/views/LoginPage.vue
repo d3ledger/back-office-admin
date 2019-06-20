@@ -80,7 +80,7 @@ import { mapActions, mapGetters } from 'vuex'
 import inputValidation from '@/components/mixins/inputValidation'
 
 export default {
-  name: 'login',
+  name: 'login-page',
   mixins: [
     inputValidation({
       username: 'nameDomain',
