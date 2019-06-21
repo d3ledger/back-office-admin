@@ -269,21 +269,6 @@ const actions = {
       })
   },
 
-  getAccountAssets ({ commit, state }) {
-    commit(types.GET_ACCOUNT_ASSETS_REQUEST)
-
-    return irohaUtil.getAccountAssets({
-      accountId: state.accountId
-    })
-      .then(assets => {
-        commit(types.GET_ACCOUNT_ASSETS_SUCCESS, assets)
-      })
-      .catch(err => {
-        commit(types.GET_ACCOUNT_ASSETS_FAILURE, err)
-        throw err
-      })
-  },
-
   getCustomAssets ({ commit, getters }) {
     commit(types.GET_CUSTOM_ASSETS_REQUEST)
     const dataCollectorUrl = getters.servicesIPs['data-collector-service']
