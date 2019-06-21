@@ -19,8 +19,10 @@
     "element-ui": "^2.4.11",
     "iroha-helpers": "0.6.14",
     "lodash": "^4.17.11",
+    "timezones.json": "^1.5.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
