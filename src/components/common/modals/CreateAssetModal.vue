@@ -149,6 +149,8 @@ export default {
 
       this.openApprovalDialog({ requiredMinAmount: this.irohaQuorum })
         .then(privateKeys => {
+          if (!privateKeys) return
+
           this.createAsset({
             privateKeys,
             assetType: others.assetType,
@@ -167,6 +169,9 @@ export default {
             .finally(() => {
               this.onModalClose()
             })
+        })
+        .finally(() => {
+          this.isCreating = false
         })
     },
     onModalClose () {
