@@ -73,32 +73,6 @@
           v-model="form.initialAmount"
         />
       </el-form-item>
-      <el-form-item
-        prop="privateKey"
-        class="approval_form-item-clearm"
-        label="Private key"
-      >
-        <el-row type="flex" justify="space-between">
-          <el-col :span="20">
-            <el-input
-              name="privateKey"
-              v-model="form.privateKey"
-            />
-          </el-col>
-
-          <el-upload
-            action=""
-            :auto-upload="false"
-            :show-file-list="false"
-            :on-change="onFileChosen"
-            class="approval_form-upload"
-          >
-            <el-button>
-              <fa-icon icon="upload" />
-            </el-button>
-          </el-upload>
-        </el-row>
-      </el-form-item>
     </el-form>
     <div slot="footer">
       <el-button
@@ -111,7 +85,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'CreateAssetModal',
@@ -125,8 +99,7 @@ export default {
         shortName: '',
         precision: 0,
         assetType: '',
-        initialAmount: 0,
-        privateKey: ''
+        initialAmount: 0
       },
 
       options: [{
@@ -146,9 +119,15 @@ export default {
       isCreating: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'irohaQuorum'
+    ])
+  },
   methods: {
     ...mapActions([
-      'createAsset'
+      'createAsset',
+      'openApprovalDialog'
     ]),
     onCreateAsset () {
       this.isCreating = true
@@ -168,23 +147,26 @@ export default {
         return
       }
 
-      this.createAsset({
-        assetType: others.assetType,
-        longName: others.longName.toLowerCase(),
-        shortName: others.shortName.toLowerCase(),
-        precision: precisionFormatted,
-        initialAmount: initialAmountFormatted.toString(),
-        privateKey: others.privateKey
-      })
-        .then(() => {
-          this.$message.success('New asset created!')
-        })
-        .catch((err) => {
-          this.$message.error('Error! Something goes wrong!')
-          console.error(err)
-        })
-        .finally(() => {
-          this.onModalClose()
+      this.openApprovalDialog({ requiredMinAmount: this.irohaQuorum })
+        .then(privateKeys => {
+          this.createAsset({
+            privateKeys,
+            assetType: others.assetType,
+            longName: others.longName.toLowerCase(),
+            shortName: others.shortName.toLowerCase(),
+            precision: precisionFormatted,
+            initialAmount: initialAmountFormatted.toString()
+          })
+            .then(() => {
+              this.$message.success('New asset created!')
+            })
+            .catch((err) => {
+              this.$message.error('Error! Something goes wrong!')
+              console.error(err)
+            })
+            .finally(() => {
+              this.onModalClose()
+            })
         })
     },
     onModalClose () {
@@ -212,6 +194,10 @@ export default {
 </script>
 
 <style scoped>
+.approval_form-item-clearm {
+  margin-bottom: 1rem;
+}
+
 .approval_form-upload .el-button,
 .approval_form-upload .el-button:focus {
   width: 3.8rem;
