@@ -10,35 +10,74 @@ import fromPairs from 'lodash/fp/fromPairs'
 import flow from 'lodash/fp/flow'
 import { grpc } from '@improbable-eng/grpc-web'
 import configUtil from '@util/config-util'
+import notaryUtil from '@util/notary-util'
 
 const types = flow(
   flatMap(x => [x + '_REQUEST', x + '_SUCCESS', x + '_FAILURE']),
   concat([
-    'RESET'
+    'RESET',
+    'APPROVAL_DIALOG_OPEN',
+    'APPROVAL_DIALOG_CLOSE'
   ]),
   map(x => [x, x]),
   fromPairs
 )([
-  'LOAD_CONFIGURATION_FILE'
+  'LOAD_CONFIGURATION_FILE',
+  'GET_FREE_ETH_RELAYS',
+  'GET_FREE_BTC_RELAYS'
 ])
 
 function initialState () {
   return {
-    config: {
-      nodes: [],
-      health: []
-    }
+    approvalDialog: {
+      isVisible: false,
+      signatures: [],
+      resolvePrompting: null,
+      rejectPrompting: null,
+      requiredMinAmount: 1
+    },
+    health: [],
+    nodes: [],
+    freeEthRelaysNumber: 0,
+    freeBtcRelaysNumber: 0,
+    btcRegistrationIp: null,
+    ethRegistrationIp: null,
+    services: []
   }
 }
 
 const state = initialState()
 
 const getters = {
-  registrationNodes (state) {
-    return state.config.nodes
+  approvalDialogVisible () {
+    return state.approvalDialog.isVisible
+  },
+  approvalDialogSignatures () {
+    return state.approvalDialog.signatures
+  },
+  approvalDialogMinAmountKeys () {
+    return state.approvalDialog.requiredMinAmount
+  },
+  nodeIPs (state) {
+    return state.nodes
   },
   healthNodes (state) {
-    return state.config.health.map(n => ({ ...n, status: '' }))
+    return state.health.map(n => ({ ...n, status: '' }))
+  },
+  freeEthRelaysNumber (state) {
+    return state.freeEthRelaysNumber
+  },
+  freeBtcRelaysNumber (state) {
+    return state.freeBtcRelaysNumber
+  },
+  btcRegistrationIp (state) {
+    return state.btcRegistrationIp
+  },
+  ethRegistrationIp (state) {
+    return state.ethRegistrationIp
+  },
+  servicesIPs (state) {
+    return state.services
   }
 }
 
@@ -60,19 +99,104 @@ function handleError (state, err) {
 }
 
 const mutations = {
-  [types.LOAD_CONFIGURATION_FILE_REQUEST] (state) {},
-
-  [types.LOAD_CONFIGURATION_FILE_SUCCESS] (state, config) {
-    Vue.set(state.config, 'nodes', config.nodes)
-    Vue.set(state.config, 'health', config.health)
+  [types.APPROVAL_DIALOG_OPEN] (state, { resolvePrompting, rejectPrompting, signatures, requiredMinAmount }) {
+    Vue.set(state, 'approvalDialog', {
+      isVisible: true,
+      resolvePrompting,
+      rejectPrompting,
+      signatures,
+      requiredMinAmount
+    })
   },
 
+  [types.APPROVAL_DIALOG_CLOSE] (state, privateKeys) {
+    Vue.set(state.approvalDialog, 'isVisible', false)
+    Vue.set(state.approvalDialog, 'signatures', [])
+    state.approvalDialog.resolvePrompting(privateKeys)
+  },
+
+  [types.GET_FREE_ETH_RELAYS_REQUEST] (state) {},
+
+  [types.GET_FREE_ETH_RELAYS_SUCCESS] (state, relays) {
+    state.freeEthRelaysNumber = relays
+  },
+
+  [types.GET_FREE_ETH_RELAYS_FAILURE] (state, err) {
+    handleError(state, err)
+  },
+
+  [types.GET_FREE_BTC_RELAYS_REQUEST] (state) {},
+
+  [types.GET_FREE_BTC_RELAYS_SUCCESS] (state, relays) {
+    state.freeBtcRelaysNumber = relays
+  },
+
+  [types.GET_FREE_BTC_RELAYS_FAILURE] (state, err) {
+    handleError(state, err)
+  },
+
+  [types.LOAD_CONFIGURATION_FILE_REQUEST] (state) {},
+  [types.LOAD_CONFIGURATION_FILE_SUCCESS] (state, config) {
+    state.nodes = config.nodes
+    state.health = config.health
+
+    state.btcRegistrationIp = config.relays.BTC.value
+    state.ethRegistrationIp = config.relays.ETH.value
+
+    state.services = config.services
+  },
   [types.LOAD_CONFIGURATION_FILE_FAILURE] (state, err) {
     handleError(state, err)
   }
 }
 
 const actions = {
+  openApprovalDialog ({ commit }, { signatures = [], requiredMinAmount = 1 } = {}) {
+    let resolvePrompting, rejectPrompting
+    const prompting = new Promise((resolve, reject) => {
+      resolvePrompting = resolve
+      rejectPrompting = reject
+    })
+
+    commit(types.APPROVAL_DIALOG_OPEN, {
+      resolvePrompting,
+      rejectPrompting,
+      signatures,
+      requiredMinAmount
+    })
+
+    return prompting
+  },
+  closeApprovalDialog ({ commit }, privateKeys) {
+    commit(types.APPROVAL_DIALOG_CLOSE, privateKeys)
+  },
+
+  getFreeEthRelaysNumber ({ commit, state }) {
+    commit(types.GET_FREE_ETH_RELAYS_REQUEST)
+
+    return notaryUtil.getFreeRelaysNumber(state.ethRegistrationIp)
+      .then(relays => {
+        commit(types.GET_FREE_ETH_RELAYS_SUCCESS, relays)
+      })
+      .catch(err => {
+        commit(types.GET_FREE_ETH_RELAYS_FAILURE, err)
+        throw err
+      })
+  },
+
+  getFreeBtcRelaysNumber ({ commit, state }) {
+    commit(types.GET_FREE_BTC_RELAYS_REQUEST)
+
+    return notaryUtil.getFreeRelaysNumber(state.btcRegistrationIp)
+      .then(relays => {
+        commit(types.GET_FREE_BTC_RELAYS_SUCCESS, relays)
+      })
+      .catch(err => {
+        commit(types.GET_FREE_BTC_RELAYS_FAILURE, err)
+        throw err
+      })
+  },
+
   getConfiguration ({ commit }) {
     commit(types.LOAD_CONFIGURATION_FILE_REQUEST)
 

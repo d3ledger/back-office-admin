@@ -10,13 +10,6 @@
           <el-card :body-style="{ padding: '0' }">
             <div class="header">
               <span>Fee setting</span>
-              <el-button
-                class="action_button"
-                @click="updateBillingData"
-                :loading="billingDataUpdating"
-              >
-                Refresh
-              </el-button>
             </div>
             <el-table
               :data="availableAssets"
@@ -160,7 +153,6 @@ export default {
   },
   data () {
     return {
-      billingDataUpdating: false,
       setFeeFormVisible: false,
       feeAmount: 0,
       assetToSet: null,
@@ -191,22 +183,8 @@ export default {
       'openApprovalDialog'
     ]),
 
-    updateBillingData () {
-      this.billingDataUpdating = true
-      this.getFullBillingData().finally(() => {
-        this.billingDataUpdating = false
-      })
-    },
-
     handleEdit (asset, feeType) {
-      let billingData = {}
-      switch (feeType) {
-        case FeeTypes.TRANSFER: billingData = this.transferFee; break
-        case FeeTypes.CUSTODY: billingData = this.custodyFee; break
-        case FeeTypes.WITHDRAWAL: billingData = this.withdrawalFee; break
-        case FeeTypes.EXCHANGE: billingData = this.exchangeFee; break
-      }
-      this.feeAmount = billingData[asset.assetId] ? billingData[asset.assetId].feeFraction : 0
+      this.feeAmount = this.transferFee[asset.assetId] ? this.transferFee[asset.assetId].feeFraction : 0
       this.assetToSet = asset
       this.setFeeFormVisible = true
       this.feeType = feeType
@@ -254,25 +232,4 @@ export default {
   align-items: center;
   padding: 1.5rem 1.5rem;
 }
-.action_button {
-  border: 1px solid #000000;
-  text-transform: uppercase;
-  width: 7rem;
-  padding: 0.5rem;
-}
-
-.action_button:active,
-.action_button:focus,
-.action_button:hover {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.action_button-icon {
-  font-size: 0.7rem;
-  height: 0.8rem;
-  margin-left: -0.2rem;
-  margin-right: 0.3rem;
-}
-
 </style>

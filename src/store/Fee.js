@@ -9,7 +9,7 @@ import concat from 'lodash/fp/concat'
 import fromPairs from 'lodash/fp/fromPairs'
 import flow from 'lodash/fp/flow'
 import flatten from 'lodash/fp/flatten'
-import { grpc } from '@improbable-eng/grpc-web'
+import { grpc } from 'grpc-web-client'
 import irohaUtil from '@util/iroha'
 import notaryUtil from '@util/notary-util'
 import collectorUtil from '@util/collector-util'
@@ -265,6 +265,21 @@ const actions = {
       .then(() => commit(types.ADD_NETWORK_SUCCESS))
       .catch(err => {
         commit(types.ADD_NETWORK_FAILURE, err)
+        throw err
+      })
+  },
+
+  getAccountAssets ({ commit, state }) {
+    commit(types.GET_ACCOUNT_ASSETS_REQUEST)
+
+    return irohaUtil.getAccountAssets({
+      accountId: state.accountId
+    })
+      .then(assets => {
+        commit(types.GET_ACCOUNT_ASSETS_SUCCESS, assets)
+      })
+      .catch(err => {
+        commit(types.GET_ACCOUNT_ASSETS_FAILURE, err)
         throw err
       })
   },

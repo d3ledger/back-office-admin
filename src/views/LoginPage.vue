@@ -13,9 +13,21 @@
     </div>
     <span class="auth-welcome">Welcome to D3 AP</span>
     <div class="auth-form-container">
-      <el-form @keyup.enter.native="onSubmit" class="auth-form" ref="form" :model="form" :rules="rules" label-position="top">
-        <el-form-item label="Private key" prop="privateKey">
-          <el-row type="flex" justify="space-between">
+      <el-form
+        ref="form"
+        :model="form"
+        class="auth-form"
+        label-position="top"
+        @keyup.enter.native="onSubmit"
+      >
+        <el-form-item
+          label="Private key"
+          prop="privateKey"
+        >
+          <el-row
+            type="flex"
+            justify="space-between"
+          >
             <el-col :span="20">
               <el-input
                 v-model="$v.form.privateKey.$model"
@@ -33,7 +45,12 @@
               :show-file-list="false"
               :on-change="onFileChosen"
               :disabled="isLoading"
-              class="auth-form_upload"
+              :class="[
+                'auth-form_upload',
+                _isValid($v.form.privateKey) ? 'border_success' : '',
+                _isError($v.form.privateKey) ? 'border_fail' : ''
+              ]"
+              action=""
             >
               <el-button>
                 <fa-icon icon="upload" />
@@ -45,7 +62,10 @@
             class="el-form-item__error"
           >{{ _showError($v.form.privateKey) }}</span>
         </el-form-item>
-        <el-form-item label="Username" prop="username">
+        <el-form-item
+          label="Username"
+          prop="username"
+        >
           <el-input
             v-model="$v.form.username.$model"
             :disabled="isLoading"
@@ -60,7 +80,10 @@
             class="el-form-item__error"
           >{{ _showError($v.form.username) }}</span>
         </el-form-item>
-        <el-form-item label="Node IP" prop="nodeIp">
+        <el-form-item
+          label="Node IP"
+          prop="nodeIp"
+        >
           <el-select
             v-model="$v.form.nodeIp.$model"
             :disabled="isLoading"
@@ -75,7 +98,7 @@
             popper-class="black-form_select-dropdown"
           >
             <el-option
-              v-for="node in registrationNodes"
+              v-for="node in nodeIPs"
               :key="node.value"
               :label="node.label"
               :value="node.value"
@@ -89,9 +112,10 @@
             class="el-form-item__error"
           >{{ _showError($v.form.nodeIp) }}</span>
         </el-form-item>
-
         <el-form-item class="auth-button-container">
           <el-button
+            :loading="isLoading"
+            data-cy="login"
             class="auth-button fullwidth black"
             type="primary"
             @click="onSubmit"
@@ -107,10 +131,17 @@
 <script>
 import messageMixin from '@/components/mixins/message'
 import { mapActions, mapGetters } from 'vuex'
-import inputValidation from '@/components/mixins/inputValidation'
+
+import {
+  _keyPattern,
+  _nodeIp,
+  _user,
+  errorHandler
+} from '@/components/mixins/validation'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'login-page',
+  name: 'Login',
   mixins: [
     messageMixin,
     errorHandler
@@ -138,19 +169,28 @@ export default {
         username: '',
         privateKey: '',
         nodeIp: this.$store.state.Account.nodeIp
-      }
+      },
+
+      versionTimeout: null,
+      countToShowVersion: 0
     }
   },
 
   computed: {
     ...mapGetters([
-      'registrationNodes'
+      'nodeIPs'
     ])
   },
+
   created () {
     const nodeIp = this.$store.state.Account.nodeIp
-    this.form.nodeIp = nodeIp || this.registrationNodes[0].value
+    this.form.nodeIp = nodeIp || this.nodeIPs[0].value
   },
+
+  mounted () {
+    document.documentElement.style.setProperty('--show-loading', 'none')
+  },
+
   methods: {
     ...mapActions([
       'login'
