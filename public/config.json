@@ -11,15 +11,15 @@
   }],
   "health": [{
       "title": "Bitcoin Registration",
-      "url": "localhost:8086/health"
+      "url": "localhost:8086/actuator/health"
     },
     {
       "title": "Bitcoin withdrawal and Deposit",
-      "url": "localhost:7074/health"
+      "url": "localhost:7074/actuator/health"
     },
     {
       "title": "Bitcoin Address Generation",
-      "url": "localhost:7071/health"
+      "url": "localhost:7071/actuator/health"
     },
     {
       "title": "Ethereum registration",

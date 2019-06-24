@@ -269,6 +269,10 @@ export default {
 </script>
 
 <style scoped>
+.approval_form-item-clearm {
+  margin-bottom: 1rem;
+}
+
 .form-countdown {
   position: relative;
   margin: auto;

@@ -237,17 +237,17 @@ const actions = {
       precision,
       assetType,
       initialAmount,
-      privateKey
+      privateKeys
     } = form
 
     commit(types.CREATE_ASSET_REQUEST)
 
     try {
-      await dispatch('checkCreateDomain', { assetType, privateKey })
-      await dispatch('checkCreateAsset', { shortName, assetType, precision, privateKey })
-      await dispatch('addAssetQuantity', { shortName, assetType, initialAmount, privateKey })
-      await dispatch('checkCreateAccount', { assetType, privateKey })
-      await dispatch('checkSetDetail', { assetType, longName, shortName, privateKey })
+      await dispatch('checkCreateDomain', { assetType, privateKeys })
+      await dispatch('checkCreateAsset', { shortName, assetType, precision, privateKeys })
+      await dispatch('addAssetQuantity', { shortName, assetType, initialAmount, privateKeys })
+      await dispatch('checkCreateAccount', { assetType, privateKeys })
+      await dispatch('checkSetDetail', { assetType, longName, shortName, privateKeys })
       await dispatch('getAccountAssets')
       commit(types.CREATE_ASSET_SUCCESS)
     } catch (error) {
@@ -256,10 +256,10 @@ const actions = {
     }
   },
 
-  async checkCreateDomain ({ commit }, { assetType, privateKey }) {
+  async checkCreateDomain ({ commit, getters }, { assetType, privateKeys }) {
     commit(types.CHECK_DOMAIN_REQUEST)
     try {
-      await irohaUtil.createDomain([ privateKey ], 1, {
+      await irohaUtil.createDomain(privateKeys, getters.irohaQuorum, {
         domainId: assetType,
         defaultRole: 'eth_token_list_storage'
       })
@@ -271,10 +271,10 @@ const actions = {
     }
   },
 
-  async checkCreateAsset ({ commit }, { shortName, assetType, precision, privateKey }) {
+  async checkCreateAsset ({ commit, getters }, { shortName, assetType, precision, privateKeys }) {
     commit(types.CHECK_ASSET_REQUEST)
     try {
-      await irohaUtil.createAsset([ privateKey ], 1, {
+      await irohaUtil.createAsset(privateKeys, getters.irohaQuorum, {
         assetName: shortName,
         domainId: assetType,
         precision
@@ -286,10 +286,10 @@ const actions = {
     }
   },
 
-  async addAssetQuantity ({ commit }, { shortName, assetType, initialAmount, privateKey }) {
+  async addAssetQuantity ({ commit, getters }, { shortName, assetType, initialAmount, privateKeys }) {
     commit(types.ADD_ASSET_QUANTITY_REQUEST)
     try {
-      irohaUtil.addAssetQuantity([ privateKey ], 1, {
+      irohaUtil.addAssetQuantity(privateKeys, getters.irohaQuorum, {
         assetId: `${shortName}#${assetType}`,
         amount: initialAmount
       })
@@ -299,10 +299,10 @@ const actions = {
       throw error
     }
   },
-  async checkCreateAccount ({ commit }, { assetType, privateKey }) {
+  async checkCreateAccount ({ commit, getters }, { assetType, privateKeys }) {
     commit(types.CHECK_ACCOUNT_REQUEST)
     try {
-      await irohaUtil.createAccount([ privateKey ], 1, {
+      await irohaUtil.createAccount(privateKeys, getters.irohaQuorum, {
         accountName: `assets_list`,
         domainId: assetType,
         publicKey: '0000000000000000000000000000000000000000000000000000000000000000'
@@ -315,10 +315,10 @@ const actions = {
     }
   },
 
-  async checkSetDetail ({ commit }, { assetType, longName, shortName, privateKey }) {
+  async checkSetDetail ({ commit, getters }, { assetType, longName, shortName, privateKeys }) {
     commit(types.SET_ACCOUNT_DETAIL_REQUEST)
     try {
-      await irohaUtil.setAccountDetail([ privateKey ], 1, {
+      await irohaUtil.setAccountDetail(privateKeys, getters.irohaQuorum, {
         accountId: `assets_list@${assetType}`,
         key: longName,
         value: shortName
