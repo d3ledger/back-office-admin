@@ -14,6 +14,7 @@
     <el-form
       label-position="top"
       :model="form"
+      class="create-asset_form"
     >
       <el-form-item
         prop="longName"
