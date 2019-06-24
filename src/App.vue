@@ -132,16 +132,18 @@ button.el-dialog__headerbtn {
 }
 
 .fullwidth {
-  width: 100%
+  width: 100%;
 }
 
 .pointed {
   cursor: pointer;
 }
+
 /*
  * Input
  */
-.el-input__inner {
+
+.create-asset_form .el-input__inner {
   background-color: rgba(0, 0, 0, 0.04);
   color: rgba(0, 0, 0, 0.8);
   border: 1px solid #dcdfe6;
@@ -152,17 +154,20 @@ button.el-dialog__headerbtn {
   line-height: 0;
   font-size: 1rem;
 }
-.el-input__inner:focus {
+
+.create-asset_form .el-input__inner:focus {
   border: 1px solid #dcdfe6;
   color: rgba(0, 0, 0, 0.8);
   background-color: #ffffff;
   opacity: 1;
 }
-.el-form-item {
+
+.create-asset_form .el-form-item {
   height: 4.4rem;
   margin-bottom: 32px;
 }
-.el-form-item__label {
+
+.create-asset_form .el-form-item__label {
   line-height: 1;
   position: relative;
   top: 1.5rem;
@@ -170,16 +175,18 @@ button.el-dialog__headerbtn {
   margin-left: 1.2rem;
   font-size: 0.8rem;
   opacity: 0.56;
-  color: rgba(0, 0, 0, 0.8);
-  padding: 0 !important;
+  color: rgba(0, 0, 0, 0.8);;
 }
-.el-input--suffix input {
-  padding-top: 1.2rem;
+
+.create-asset_form .el-input--suffix input {
+  padding-top: 0px;
 }
-.el-input-group__append {
+
+.create-asset_form .el-input-group__append {
   background-color: #2d2d2d;
 }
-.el-input-group__append input {
+
+.create-asset_form .el-input-group__append input {
   font-weight: normal
 }
 /*
@@ -188,11 +195,13 @@ button.el-dialog__headerbtn {
 .black-form_select-dropdown {
   background-color: #363636;
 }
+
 .black-form_select-dropdown .el-select-dropdown__item {
   background-color: #363636;
   color: #ffffff;
   opacity: 0.8;
 }
+
 .black-form_select-dropdown .el-select-dropdown__item:hover {
   background-color: #424242;
 }
@@ -201,16 +210,19 @@ button.el-dialog__headerbtn {
   flex-direction: column;
   align-items: center;
 }
+
 .auth-welcome {
   font-size: 1.6rem;
   font-weight: 600;
   color: #ffffff;
 }
+
 .auth-form .el-input.is-disabled .el-input__inner {
   background-color: #363636;
   color: rgba(255, 255, 255, 0.8);
   border: solid 1px rgba(255, 255, 255, 0.4);
 }
+
 .auth-form .el-input__inner {
   background-color: #363636;
   color: rgba(255, 255, 255, 0.8);
@@ -222,14 +234,17 @@ button.el-dialog__headerbtn {
   line-height: 0;
   font-size: 1rem;
 }
+
 .auth-form .el-input__inner:focus {
   border-color: #ffffff;
   color: #ffffff;
   opacity: 1;
 }
+
 .auth-form .el-form-item {
   height: 4.4rem;
 }
+
 .auth-form .el-form-item__label {
   line-height: 1;
   position: relative;
@@ -240,9 +255,11 @@ button.el-dialog__headerbtn {
   opacity: 0.56;
   color: #ffffff;
 }
+
 .el-form-item__label::before {
   display: none !important;
 }
+
 .auth-form_upload .el-button,
 .auth-form_upload .el-button:focus {
   width: 3.8rem;
@@ -254,28 +271,34 @@ button.el-dialog__headerbtn {
   font-size: 1.2rem;
   border-radius: 0.3rem;
 }
+
 .auth-form_upload .el-button:hover {
   border-color: #ffffff;
   color: #ffffff;
 }
+
 .auth-form_select .el-input__inner {
   height: 4.5rem !important;
 }
+
 .auth-button {
   margin-top: 1.5rem;
   height: 3.8rem;
   font-size: 0.8rem;
   background-color: #000000;
 }
+
 .auth-form-container {
   position: relative;
   width: 28rem;
   overflow: visible;
   margin-top: 3rem;
 }
+
 .auth_goto-container {
   margin-top: 4rem;
 }
+
 .auth_goto-container-title {
   margin-bottom: 1.2rem;
   font-size: 0.8rem;
@@ -283,6 +306,7 @@ button.el-dialog__headerbtn {
   opacity: 0.8;
   text-align: center;
 }
+
 .auth_goto-container-button {
   height: 3.8rem;
   font-size: 0.8rem;
@@ -290,11 +314,13 @@ button.el-dialog__headerbtn {
   background-color: #363636;
   margin-bottom: 1rem;
 }
+
 .auth_goto-container-button:hover {
   background-color: #363636;
   border-color: #ffffff;
   color: #ffffff;
 }
+
 .text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -313,37 +339,14 @@ button.el-dialog__headerbtn {
 .border_fail .el-button {
   border-color: #f56c6c !important;
 }
+
 .el-loading-mask.is-fullscreen
 .el-loading-spinner
 .circular circle {
   stroke: #f56c6c;
 }
-.dialog-form_buttons-block {
-  display: flex;
-  justify-content: space-between;
-}
-.dialog-form_buttons {
-  height: 3.5rem;
-  width: 13.5rem;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-}
-.dialog-form_buttons.action {
-  background-color: #041820;
-  color: #ffffff;
-  border: 1px solid #041820;
-}
-.dialog-form_buttons.action.is-disabled {
-  opacity: 0.8;
-}
-.dialog-form_buttons.action:hover {
-  background-color: #041820;
-}
-.dialog-form_buttons.close {
-  color: #000000;
-  border: 1px solid #1d1f20;
-}
-.dialog-form_buttons.close:hover {
-  background-color: rgba(0, 0, 0, 0.025);
+
+.approval_form-desc .key_representation {
+  word-break: break-all;
 }
 </style>
