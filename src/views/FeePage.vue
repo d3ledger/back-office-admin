@@ -184,7 +184,14 @@ export default {
     ]),
 
     handleEdit (asset, feeType) {
-      this.feeAmount = this.transferFee[asset.assetId] ? this.transferFee[asset.assetId].feeFraction : 0
+      let billingData = {}
+      switch (feeType) {
+        case FeeTypes.TRANSFER: billingData = this.transferFee; break
+        case FeeTypes.CUSTODY: billingData = this.custodyFee; break
+        case FeeTypes.WITHDRAWAL: billingData = this.withdrawalFee; break
+        case FeeTypes.EXCHANGE: billingData = this.exchangeFee; break
+      }
+      this.feeAmount = billingData[asset.assetId] ? billingData[asset.assetId].feeFraction : 0
       this.assetToSet = asset
       this.setFeeFormVisible = true
       this.feeType = feeType
