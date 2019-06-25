@@ -47,7 +47,7 @@ const getters = {
     return quorum ? parseInt(quorum.user_quorum) : state.accountQuorum
   },
   irohaQuorum (state, getters) {
-    return state.accountInfo['brvs@brvs'] ? getters.accountQuorum * 2 : getters.accountQuorum
+    return getters.accountQuorum
   }
 }
 
