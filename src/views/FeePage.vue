@@ -10,6 +10,13 @@
           <el-card :body-style="{ padding: '0' }">
             <div class="header">
               <span>Fee setting</span>
+              <el-button
+                class="action_button"
+                @click="updateBillingData"
+                :loading="billingDataUpdating"
+              >
+                Refresh
+              </el-button>
             </div>
             <el-table
               :data="availableAssets"
@@ -153,6 +160,7 @@ export default {
   },
   data () {
     return {
+      billingDataUpdating: false,
       setFeeFormVisible: false,
       feeAmount: 0,
       assetToSet: null,
@@ -182,6 +190,13 @@ export default {
       'getFullBillingData',
       'openApprovalDialog'
     ]),
+
+    updateBillingData () {
+      this.billingDataUpdating = true
+      this.getFullBillingData().finally(() => {
+        this.billingDataUpdating = false
+      })
+    },
 
     handleEdit (asset, feeType) {
       let billingData = {}
@@ -239,4 +254,25 @@ export default {
   align-items: center;
   padding: 1.5rem 1.5rem;
 }
+.action_button {
+  border: 1px solid #000000;
+  text-transform: uppercase;
+  width: 7rem;
+  padding: 0.5rem;
+}
+
+.action_button:active,
+.action_button:focus,
+.action_button:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.action_button-icon {
+  font-size: 0.7rem;
+  height: 0.8rem;
+  margin-left: -0.2rem;
+  margin-right: 0.3rem;
+}
+
 </style>
