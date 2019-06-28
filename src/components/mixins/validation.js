@@ -111,7 +111,7 @@ export const _amount = (wallet) => (amount) => {
 export const _feeAmount = (number) => {
   if (isNaN(Number(number))) return false
   else if (Number(number).toString().length < number.length) return false
-  else if (number !== null && gt(getPrecision(number))(6)) return false
+  else if (number !== null && gt(getPrecision(number.toString()))(6)) return false
   else if (number !== null && gte(number)(100)) return false
   else if (!/(^\d*\.?\d*[0-9]+\d*$)|(^[0-9]+\d*\.\d*$)/.test(number)) return false
   else if (number !== null && number.length === 0) return false
