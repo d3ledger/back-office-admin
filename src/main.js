@@ -1,3 +1,7 @@
+/*
+ * Copyright D3 Ledger, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import '@babel/polyfill'
 
 import Vue from 'vue'
@@ -67,10 +71,16 @@ import {
   DropdownMenu,
   DropdownItem,
   Tooltip,
-  Switch
+  Switch,
+  Pagination,
+  Tabs,
+  TabPane
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
+import Vuelidate from 'vuelidate'
+
+Vue.use(Vuelidate)
 
 Vue.use(Dialog)
 Vue.use(Menu)
@@ -101,6 +111,9 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Tooltip)
 Vue.use(Switch)
+Vue.use(Pagination)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Loading.directive)
 const MsgBox = MessageBox
 Vue.prototype.$prompt = MsgBox.prompt

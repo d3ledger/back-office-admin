@@ -1,3 +1,7 @@
+/*
+ * Copyright D3 Ledger, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import {
   commands,
   signWithArrayOfKeys,
@@ -52,10 +56,10 @@ function createSettlement (senderPrivateKeys, senderAccountId, senderQuorum = 1,
   let txClient = newCommandService()
 
   let senderTx = txHelper.addCommand(txHelper.emptyTransaction(), 'transferAsset', { srcAccountId: senderAccountId, destAccountId: receiverAccountId, assetId: senderAssetId, description, amount: senderAmount })
-  senderTx = txHelper.addMeta(senderTx, { creatorAccountId: senderAccountId, senderQuorum })
+  senderTx = txHelper.addMeta(senderTx, { creatorAccountId: senderAccountId, quorum: senderQuorum })
 
   let receiverTx = txHelper.addCommand(txHelper.emptyTransaction(), 'transferAsset', { srcAccountId: receiverAccountId, destAccountId: senderAccountId, assetId: receiverAssetId, description, amount: receiverAmount })
-  receiverTx = txHelper.addMeta(receiverTx, { creatorAccountId: receiverAccountId, receiverQuorum })
+  receiverTx = txHelper.addMeta(receiverTx, { creatorAccountId: receiverAccountId, quorum: receiverQuorum })
 
   const batchArray = txHelper.addBatchMeta([senderTx, receiverTx], 0)
   batchArray[0] = signWithArrayOfKeys(batchArray[0], senderPrivateKeys)
@@ -70,7 +74,10 @@ function acceptSettlement (privateKeys, batchArray, timeoutLimit = DEFAULT_TIMEO
 
   const indexOfUnsigned = cloneDeep(batchArray)
     .map(tx => tx.toObject())
-    .findIndex(tx => !tx.signaturesList.length)
+    .findIndex(tx => {
+      return !tx.signaturesList.length
+    })
+
   const indexOfSigned = cloneDeep(batchArray)
     .map(tx => tx.toObject())
     .findIndex(tx => tx.signaturesList.length)
@@ -78,7 +85,11 @@ function acceptSettlement (privateKeys, batchArray, timeoutLimit = DEFAULT_TIMEO
   batchArray[indexOfSigned].clearSignaturesList()
 
   batchArray[indexOfUnsigned] = signWithArrayOfKeys(batchArray[1], privateKeys)
-  return sendTransactions(batchArray, txClient, timeoutLimit)
+
+  return sendTransactions(batchArray, txClient, timeoutLimit, [
+    'COMMITED',
+    'COMMITED'
+  ])
 }
 
 function rejectSettlement (privateKeys, batchArray, timeoutLimit = DEFAULT_TIMEOUT_LIMIT) {
@@ -194,9 +205,20 @@ const setAccountQuorum = (privateKeys, currentQuorum, {
   }
 )
 
+const createDomain = (privateKeys, currentQuorum, {
+  domainId,
+  defaultRole
+}) => commands.createDomain(
+  newCommandServiceOptions(privateKeys, currentQuorum), {
+    domainId,
+    defaultRole
+  }
+)
+
 export {
   createAccount,
   createAsset,
+  createDomain,
   transferAsset,
   addSignatory,
   removeSignatory,

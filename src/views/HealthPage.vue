@@ -1,3 +1,7 @@
+<!--
+  Copyright D3 Ledger, Inc. All Rights Reserved.
+  SPDX-License-Identifier: Apache-2.0
+-->
 <template>
   <el-container class="fullheight">
     <el-main class="fullheight">
@@ -11,8 +15,11 @@
             :body-style="{ padding: '1.5rem' }" class="fullheight">
             <div class="header">
               <span>Services health</span>
-              <el-button @click="checkHealth">
-                Обновить
+              <el-button
+                class="action_button"
+                @click="checkHealth"
+              >
+                Refresh
               </el-button>
             </div>
             <el-row>
@@ -46,26 +53,28 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
-import config from '@/data/config'
-
-const healthNodes = config.healthNodes.map(n => ({ ...n, status: '' }))
 
 export default {
-  name: 'dashboard-page',
+  name: 'health-page',
   data () {
     return {
-      healthNodes
+      refreshInterval: null
     }
   },
+  computed: {
+    ...mapGetters([
+      'healthNodes'
+    ])
+  },
   methods: {
-    ...mapActions([]),
     checkHealth () {
       for (let i = 0; i < this.healthNodes.length; i++) {
         this.healthNodes[i].status = 'Checking'
         try {
-          axios.get(this.healthNodes[i].url)
+          const protocol = location.protocol
+          axios.get(`${protocol}//${this.healthNodes[i].url}`)
             .then(() => {
               this.healthNodes[i].status = 'Working'
             })
@@ -78,11 +87,14 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters([])
-  },
   created () {
-    this.checkHealth()
+    this.refreshInterval = setInterval(() => {
+      this.checkHealth()
+    }, 5 * 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.refreshInterval)
+    this.refreshInterval = null
   }
 }
 </script>
