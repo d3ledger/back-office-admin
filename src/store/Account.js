@@ -1,9 +1,13 @@
+/*
+ * Copyright D3 Ledger, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import map from 'lodash/fp/map'
 import flatMap from 'lodash/fp/flatMap'
 import concat from 'lodash/fp/concat'
 import fromPairs from 'lodash/fp/fromPairs'
 import flow from 'lodash/fp/flow'
-import { grpc } from 'grpc-web-client'
+import { grpc } from '@improbable-eng/grpc-web'
 import irohaUtil from '@util/iroha'
 
 const types = flow(
@@ -24,6 +28,7 @@ function initialState () {
     accountId: '',
     nodeIp: irohaUtil.getStoredNodeIp(),
     accountInfo: {},
+    accountQuorum: 0,
     connectionError: null
   }
 }
@@ -33,6 +38,16 @@ const state = initialState()
 const getters = {
   nodeIp (state) {
     return state.nodeIp
+  },
+  accountId (state) {
+    return state.accountId
+  },
+  accountQuorum (state) {
+    const quorum = find('user_quorum', state.accountInfo)
+    return quorum ? parseInt(quorum.user_quorum) : state.accountQuorum
+  },
+  irohaQuorum (state, getters) {
+    return getters.accountQuorum
   }
 }
 
@@ -68,6 +83,7 @@ const mutations = {
   [types.LOGIN_SUCCESS] (state, account) {
     state.accountId = account.accountId
     state.accountInfo = JSON.parse(account.jsonData)
+    state.accountQuorum = account.quorum
   },
 
   [types.LOGIN_FAILURE] (state, err) {

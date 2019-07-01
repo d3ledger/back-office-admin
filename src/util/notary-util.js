@@ -1,9 +1,22 @@
+/*
+ * Copyright D3 Ledger, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import axios from 'axios'
-import configFile from '@/data/config'
 
-let axiosNotary = axios.create({
-  baseURL: configFile.notaryUrl
+const PROTOCOL = location.protocol
+
+const axiosNotary = axios.create({
+  baseURL: ''
 })
+
+const getFreeRelaysNumber = (url) => {
+  return axios({
+    url: '/free-addresses/number',
+    baseURL: `${PROTOCOL}//${url}`
+  })
+    .then(({ data }) => data)
+}
 
 const addNewRelay = axios => () => {
   return axios
@@ -12,5 +25,10 @@ const addNewRelay = axios => () => {
 }
 
 export default {
-  addNewRelay: addNewRelay(axiosNotary)
+  get baseURL () { return axiosNotary.defaults.baseURL },
+  set baseURL (baseURL) {
+    axiosNotary.defaults.baseURL = `${PROTOCOL}//${baseURL}`
+  },
+  addNewRelay: addNewRelay(axiosNotary),
+  getFreeRelaysNumber
 }
