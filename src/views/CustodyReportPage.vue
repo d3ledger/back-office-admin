@@ -37,7 +37,7 @@
                     <el-form-item label="Date">
                       <el-date-picker
                         v-model="reportForm.date"
-                        type="datetimerange"
+                        type="daterange"
                         range-separator="-"
                         start-placeholder="Start date"
                         end-placeholder="End date"
@@ -62,7 +62,6 @@
                         <template slot-scope="scope">
                           <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
                             <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
-                            <strong>Under custody</strong>: {{ asset[2] }}
                           </div>
                         </template>
                       </el-table-column>
@@ -80,7 +79,6 @@
                       :page-size="reportForm.pageSize"
                       layout="prev, pager, next"
                       :total="total"
-                      @current-change="onNextPage"
                     >
                     </el-pagination>
                   </el-row>
@@ -112,8 +110,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import axios from 'axios'
+import config from '@/data/config'
 import querystring from 'querystring'
 
 export default {
@@ -124,7 +122,7 @@ export default {
 
       reportForm: {
         domain: '',
-        date: [new Date().getTime() - 3600 * 1000 * 24, new Date()],
+        date: [],
         pageNum: 1,
         pageSize: 10
       },
@@ -135,16 +133,7 @@ export default {
       total: 0
     }
   },
-  computed: {
-    ...mapGetters([
-      'servicesIPs'
-    ])
-  },
   methods: {
-    onNextPage (page) {
-      this.reportForm.pageNum = page
-      this.updateReport()
-    },
     updateReport () {
       const { date, ...params } = this.reportForm
 
@@ -158,19 +147,19 @@ export default {
         return
       }
 
-      params.from = (Number.isInteger(date[0]) ? new Date(date[0]) : date[0]).getTime()
-      params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
+      params.from = date[0].getTime()
+      params.to = date[1].getTime()
 
+      params.from = date[0].getTime()
+      params.to = date[1].getTime()
+
+      const url = `${config.reportUrl}/report/billing/custody/domain`
       const formattedString = querystring.stringify(params)
 
-      axios({
-        url: `/report/billing/custody/domain?${formattedString}`,
-        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
-      })
+      axios.get(`${url}?${formattedString}`)
         .then(res => {
           const data = res.data.accounts.map(item => {
             item.assetCustody = Object.entries(item.assetCustody)
-              .map(item => [item[0], item[1].fee, item[1].assetsUnderCustody])
 
             return item
           }).filter(item => item.assetCustody.length > 0)
@@ -179,13 +168,9 @@ export default {
           this.reportByAsset = Object.entries(data.reduce((result, current) => {
             current.assetCustody.forEach(item => {
               if (result[item[0]]) {
-                result[item[0]].fee += item[1]
-                result[item[0]].assetsUnderCustody += item[2]
+                result[item[0]] += item[1]
               } else {
-                result[item[0]] = {
-                  fee: item[1],
-                  assetsUnderCustody: item[2]
-                }
+                result[item[0]] = item[1]
               }
             })
 

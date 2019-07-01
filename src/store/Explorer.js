@@ -86,8 +86,8 @@ const mutations = {
     state.loading = true
   },
 
-  [types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS] (state, transactions) {
-    state.searchedTransactions = transactions
+  [types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS] (state, result) {
+    state.searchedTransactions = result.transactions
       .filter(item => item.payload.reducedPayload.commandsList[0].transferAsset)
       .map(item => ({
         createdTime: item.payload.reducedPayload.createdTime,
@@ -150,29 +150,19 @@ const actions = {
   },
   searchTransactionsByAccountId ({ commit, state }, { accountId }) {
     commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_REQUEST)
-
     return irohaUtil.getAccountTransactions({
       accountId,
-      pageSize: 1,
+      pageSize: 100,
       firstTxHash: undefined
     })
-      .then(response => {
-        if (response.allTransactionsSize > 0) {
-          irohaUtil.getAccountTransactions({
-            accountId,
-            pageSize: response.allTransactionsSize,
-            firstTxHash: undefined
-          })
-            .then(result => {
-              commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, result.transactionsList)
-            })
-            .catch(err => {
-              commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_FAILURE, err)
-              throw err
-            })
-        } else {
-          commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, [])
-        }
+      .then(responses => {
+        commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, {
+          transactions: responses.transactionsList
+        })
+      })
+      .catch(err => {
+        commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_FAILURE, err)
+        throw err
       })
   },
 

@@ -58,7 +58,6 @@ export const _keyDuplication = (keys) => (value) => {
 }
 
 export const _nodeIp = (url) => {
-  if (!url) return false
   let tempAddress = url.slice()
   if (url.includes('http://')) tempAddress = tempAddress.substr(7)
   if (url.includes('https://')) tempAddress = tempAddress.substr(8)
@@ -111,6 +110,7 @@ export const _amount = (wallet) => (amount) => {
 
 export const _feeAmount = (number) => {
   if (isNaN(Number(number))) return false
+  else if (Number(number).toString().length < number.length) return false
   else if (number !== null && gt(getPrecision(number.toString()))(6)) return false
   else if (number !== null && gte(number)(100)) return false
   else if (!/(^\d*\.?\d*[0-9]+\d*$)|(^[0-9]+\d*\.\d*$)/.test(number)) return false

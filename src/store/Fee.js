@@ -14,7 +14,6 @@ import irohaUtil from '@util/iroha'
 import notaryUtil from '@util/notary-util'
 import collectorUtil from '@util/collector-util'
 import billingUtil from '@util/billing-util'
-import { FeeTypes } from '@/data/consts'
 
 // TODO: Move it into notary's API so we have the same list
 const ASSETS = require('@util/crypto-list.json')
@@ -39,12 +38,7 @@ const types = flow(
   'GET_ACCOUNT_ASSETS',
   'GET_CUSTOM_ASSETS',
   'SET_FEE',
-  'GET_FULL_BILLING_DATA',
-  'CHECK_TRANSFER_BILLING_ACCOUNT',
-  'CHECK_CUSTODY_BILLING_ACCOUNT',
-  'CHECK_WITHDRAWAL_BILLING_ACCOUNT',
-  'CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT',
-  'CHECK_EXCHANGE_BILLING_ACCOUNT'
+  'GET_FULL_BILLING_DATA'
 ])
 
 function initialState () {
@@ -55,13 +49,7 @@ function initialState () {
     custodyFee: {},
     accountCreationFee: {},
     exchangeFee: {},
-    withdrawalFee: {},
-    domain: 'd3',
-    transferBillingAccountExists: false,
-    custodyBillingAccountExists: false,
-    exchangeBillingAccountExists: false,
-    accountCreationBillingAccountExists: false,
-    withdrawalBillingAccountExists: false
+    withdrawalFee: {}
   }
 }
 
@@ -218,21 +206,6 @@ const getters = {
 
   withdrawalFee (state) {
     return state.withdrawalFee
-  },
-  transferBillingAccountExists (state) {
-    return state.transferBillingAccountExists
-  },
-  custodyBillingAccountExists (state) {
-    return state.custodyBillingAccountExists
-  },
-  exchangeBillingAccountExists (state) {
-    return state.exchangeBillingAccountExists
-  },
-  accountCreationBillingAccountExists (state) {
-    return state.accountCreationBillingAccountExists
-  },
-  withdrawalBillingAccountExists (state) {
-    return state.withdrawalBillingAccountExists
   }
 }
 
@@ -260,12 +233,12 @@ const mutations = {
 
   [types.GET_FULL_BILLING_DATA_REQUEST] () {},
 
-  [types.GET_FULL_BILLING_DATA_SUCCESS] (state, { response, domain }) {
-    state.transferFee = response.transfer[domain] || {}
-    state.custodyFee = response.custody[domain] || {}
-    state.accountCreationFee = response.accountCreation[domain] || {}
-    state.exchangeFee = response.exchange[domain] || {}
-    state.withdrawalFee = response.withdrawal[domain] || {}
+  [types.GET_FULL_BILLING_DATA_SUCCESS] (state, { response }) {
+    state.transferFee = response.transfer.d3 || {}
+    state.custodyFee = response.custody.d3 || {}
+    state.accountCreationFee = response.accountCreation.d3 || {}
+    state.exchangeFee = response.exchange.d3 || {}
+    state.withdrawalFee = response.withdrawal.d3 || {}
   },
 
   [types.GET_FULL_BILLING_DATA_FAILURE] () {},
@@ -280,43 +253,13 @@ const mutations = {
 
   [types.ADD_NETWORK_REQUEST] (state) {},
   [types.ADD_NETWORK_SUCCESS] (state) {},
-  [types.ADD_NETWORK_FAILURE] (state) {},
-
-  [types.CHECK_TRANSFER_BILLING_ACCOUNT_REQUEST] (state) {},
-  [types.CHECK_TRANSFER_BILLING_ACCOUNT_SUCCESS] (state, result) {
-    state.transferBillingAccountExists = result.itIs
-  },
-  [types.CHECK_TRANSFER_BILLING_ACCOUNT_FAILURE] (state) {},
-
-  [types.CHECK_CUSTODY_BILLING_ACCOUNT_REQUEST] (state) {},
-  [types.CHECK_CUSTODY_BILLING_ACCOUNT_SUCCESS] (state, result) {
-    state.custodyBillingAccountExists = result.itIs
-  },
-  [types.CHECK_CUSTODY_BILLING_ACCOUNT_FAILURE] (state) {},
-
-  [types.CHECK_EXCHANGE_BILLING_ACCOUNT_REQUEST] (state) {},
-  [types.CHECK_EXCHANGE_BILLING_ACCOUNT_SUCCESS] (state, result) {
-    state.exchangeBillingAccountExists = result.itIs
-  },
-  [types.CHECK_EXCHANGE_BILLING_ACCOUNT_FAILURE] (state) {},
-
-  [types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_REQUEST] (state) {},
-  [types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_SUCCESS] (state, result) {
-    state.withdrawalBillingAccountExists = result.itIs
-  },
-  [types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_FAILURE] (state) {},
-
-  [types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_REQUEST] (state) {},
-  [types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_SUCCESS] (state, result) {
-    state.accountCreationBillingAccountExists = result.itIs
-  },
-  [types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_FAILURE] (state) {}
+  [types.ADD_NETWORK_FAILURE] (state) {}
 }
 
 const actions = {
-  addNetwork ({ commit, state, getters }) {
+  addNetwork ({ commit, state }) {
     commit(types.ADD_NETWORK_REQUEST)
-    const username = getters.accountId.split('@')[0]
+    const username = state.accountId.split('@')[0]
 
     return notaryUtil.signup(username, '')
       .then(() => commit(types.ADD_NETWORK_SUCCESS))
@@ -328,7 +271,7 @@ const actions = {
 
   getCustomAssets ({ commit, getters }) {
     commit(types.GET_CUSTOM_ASSETS_REQUEST)
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
+    const dataCollectorUrl = getters.servicesIPs['data-collector-service']
     return collectorUtil.getAllAssets(dataCollectorUrl.value)
       .then(res => commit(types.GET_CUSTOM_ASSETS_SUCCESS, res))
       .catch(err => {
@@ -340,7 +283,7 @@ const actions = {
   setFee ({ commit, state, dispatch, getters }, { privateKeys, asset, amount, type }) {
     commit(types.SET_FEE_REQUEST)
 
-    const accountId = `${type}@${getters.domain}`
+    const accountId = `${type}@d3`
 
     return irohaUtil.setAccountDetail(privateKeys, getters.irohaQuorum, {
       accountId,
@@ -363,65 +306,10 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return billingUtil.getFullBillingData(dataCollectorUrl)
       .then(response => {
-        commit(types.GET_FULL_BILLING_DATA_SUCCESS, { response, domain: getters.domain })
+        commit(types.GET_FULL_BILLING_DATA_SUCCESS, { response })
       })
       .catch(err => {
         commit(types.GET_FULL_BILLING_DATA_FAILURE)
-        throw err
-      })
-  },
-  checkTransferAccount ({ commit, getters }) {
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
-    return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.TRANSFER}@${getters.domain}`)
-      .then(response => {
-        commit(types.CHECK_TRANSFER_BILLING_ACCOUNT_SUCCESS, response)
-      })
-      .catch(err => {
-        commit(types.CHECK_TRANSFER_BILLING_ACCOUNT_FAILURE)
-        throw err
-      })
-  },
-  checkCustodyAccount ({ commit, getters }) {
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
-    return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.CUSTODY}@${getters.domain}`)
-      .then(response => {
-        commit(types.CHECK_CUSTODY_BILLING_ACCOUNT_SUCCESS, response)
-      })
-      .catch(err => {
-        commit(types.CHECK_CUSTODY_BILLING_ACCOUNT_FAILURE)
-        throw err
-      })
-  },
-  checkExchangeAccount ({ commit, getters }) {
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
-    return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.EXCHANGE}@${getters.domain}`)
-      .then(response => {
-        commit(types.CHECK_EXCHANGE_BILLING_ACCOUNT_SUCCESS, response)
-      })
-      .catch(err => {
-        commit(types.CHECK_EXCHANGE_BILLING_ACCOUNT_FAILURE)
-        throw err
-      })
-  },
-  checkWithdrawalAccount ({ commit, getters }) {
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
-    return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.WITHDRAWAL}@${getters.domain}`)
-      .then(response => {
-        commit(types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_SUCCESS, response)
-      })
-      .catch(err => {
-        commit(types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_FAILURE)
-        throw err
-      })
-  },
-  checkAccountCreationAccount ({ commit, getters }) {
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
-    return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.ACCOUNT_CREATION}@${getters.domain}`)
-      .then(response => {
-        commit(types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_SUCCESS, response)
-      })
-      .catch(err => {
-        commit(types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_FAILURE)
         throw err
       })
   }

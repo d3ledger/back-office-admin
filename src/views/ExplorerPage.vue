@@ -136,17 +136,6 @@
                 prop="description"
               />
             </el-table>
-            <el-row>
-              <el-pagination
-                class="pagination"
-                background
-                :page-size="pageSize"
-                layout="prev, pager, next"
-                :total="filteredTransactions.length"
-                @current-change="onNextPage"
-              >
-              </el-pagination>
-            </el-row>
           </el-card>
         </el-col>
       </el-row>
@@ -164,8 +153,6 @@ import {
 } from '@/components/mixins/validation'
 import { required } from 'vuelidate/lib/validators'
 import { SearchTypes } from '@/data/consts'
-
-const pageSize = 10
 
 export default {
   name: 'ExplorerPage',
@@ -192,10 +179,7 @@ export default {
       searchType: [SearchTypes.BLOCK, SearchTypes.TRANSACTION, SearchTypes.ACCOUNT],
       currentSearchType: SearchTypes.ACCOUNT,
       dateFrom: '',
-      dateTo: '',
-      pageSize,
-      total: 0,
-      currentPage: 1
+      dateTo: ''
     }
   },
   computed: {
@@ -203,7 +187,7 @@ export default {
       'searchedTransactions',
       'explorerLoading'
     ]),
-    filteredTransactions () {
+    transactions () {
       let transactions = [...this.searchedTransactions]
 
       if (this.dateFrom > 0) {
@@ -215,11 +199,6 @@ export default {
       }
 
       return transactions
-    },
-    transactions () {
-      const startId = pageSize * (this.currentPage - 1)
-      const finishId = startId + pageSize
-      return this.filteredTransactions.slice(startId, finishId)
     },
     placeholder () {
       switch (this.currentSearchType) {
@@ -255,11 +234,7 @@ export default {
             break
         }
       }
-    },
-    onNextPage (page) {
-      this.currentPage = page
     }
-
   }
 }
 </script>
@@ -300,10 +275,5 @@ export default {
   background: #ffffff;
   text-transform: uppercase;
   padding: 0.7rem;
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
 }
 </style>
