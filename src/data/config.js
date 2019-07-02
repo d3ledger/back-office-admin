@@ -14,6 +14,5 @@ export default {
   account: NOTARY_ACCOUNT,
   ETH: {
     relayRegistrationIrohaAccount: RELAY_ACCOUNT_KEY
-  },
-  healthNodes
+  }
 }
