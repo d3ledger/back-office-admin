@@ -229,7 +229,7 @@ export default {
           })
             .then(() => {
               this.getFullBillingData()
-              this.$message.success('Fee successfully setted')
+              this.$message.success('Fee successfully setted. Information will be updated soon.')
             })
             .catch((err) => {
               this.$message.error('Failed to set fee')

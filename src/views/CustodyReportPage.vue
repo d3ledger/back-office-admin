@@ -62,6 +62,7 @@
                         <template slot-scope="scope">
                           <div v-for="asset in scope.row.assetCustody" :key="asset[0]" >
                             <span class="asset-name">{{ asset[0] }}</span>: {{ asset[1] }}
+                            <strong>Under custody</strong>: {{ asset[2] }}
                           </div>
                         </template>
                       </el-table-column>
@@ -160,6 +161,7 @@ export default {
         .then(res => {
           const data = res.data.accounts.map(item => {
             item.assetCustody = Object.entries(item.assetCustody)
+              .map(item => [item[0], item[1].fee, item[1].assetsUnderCustody])
 
             return item
           }).filter(item => item.assetCustody.length > 0)
@@ -168,9 +170,13 @@ export default {
           this.reportByAsset = Object.entries(data.reduce((result, current) => {
             current.assetCustody.forEach(item => {
               if (result[item[0]]) {
-                result[item[0]] += item[1]
+                result[item[0]].fee += item[1]
+                result[item[0]].assetsUnderCustody += item[2]
               } else {
-                result[item[0]] = item[1]
+                result[item[0]] = {
+                  fee: item[1],
+                  assetsUnderCustody: item[2]
+                }
               }
             })
 
