@@ -136,6 +136,16 @@
                 prop="description"
               />
             </el-table>
+            <el-row>
+              <el-pagination
+                class="pagination"
+                background
+                :page-size="pageSize"
+                layout="prev, pager, next"
+                :total="total"
+              >
+              </el-pagination>
+            </el-row>
           </el-card>
         </el-col>
       </el-row>
@@ -153,6 +163,8 @@ import {
 } from '@/components/mixins/validation'
 import { required } from 'vuelidate/lib/validators'
 import { SearchTypes } from '@/data/consts'
+
+const pageSize = 10
 
 export default {
   name: 'ExplorerPage',
@@ -179,7 +191,9 @@ export default {
       searchType: [SearchTypes.BLOCK, SearchTypes.TRANSACTION, SearchTypes.ACCOUNT],
       currentSearchType: SearchTypes.ACCOUNT,
       dateFrom: '',
-      dateTo: ''
+      dateTo: '',
+      pageSize,
+      total: 0
     }
   },
   computed: {
