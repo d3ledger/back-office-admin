@@ -142,7 +142,8 @@
                 background
                 :page-size="pageSize"
                 layout="prev, pager, next"
-                :total="total"
+                :total="filteredTransactions.length"
+                @current-change="onNextPage"
               >
               </el-pagination>
             </el-row>
@@ -193,7 +194,8 @@ export default {
       dateFrom: '',
       dateTo: '',
       pageSize,
-      total: 0
+      total: 0,
+      currentPage: 1
     }
   },
   computed: {
@@ -201,7 +203,7 @@ export default {
       'searchedTransactions',
       'explorerLoading'
     ]),
-    transactions () {
+    filteredTransactions () {
       let transactions = [...this.searchedTransactions]
 
       if (this.dateFrom > 0) {
@@ -213,6 +215,11 @@ export default {
       }
 
       return transactions
+    },
+    transactions () {
+      const startId = pageSize * (this.currentPage - 1)
+      const finishId = startId + pageSize
+      return this.filteredTransactions.slice(startId, finishId)
     },
     placeholder () {
       switch (this.currentSearchType) {
@@ -248,7 +255,11 @@ export default {
             break
         }
       }
+    },
+    onNextPage (page) {
+      this.currentPage = page
     }
+
   }
 }
 </script>
@@ -289,5 +300,10 @@ export default {
   background: #ffffff;
   text-transform: uppercase;
   padding: 0.7rem;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 </style>
