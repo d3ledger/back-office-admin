@@ -37,7 +37,7 @@
                     <el-form-item label="Date">
                       <el-date-picker
                         v-model="reportForm.date"
-                        type="daterange"
+                        type="datetimerange"
                         range-separator="-"
                         start-placeholder="Start date"
                         end-placeholder="End date"
@@ -114,7 +114,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import config from '@/data/config'
 import querystring from 'querystring'
 
 export default {
@@ -125,7 +124,7 @@ export default {
 
       reportForm: {
         domain: '',
-        date: [],
+        date: [new Date().getTime() - 3600 * 1000 * 24, new Date()],
         pageNum: 1,
         pageSize: 10
       },
