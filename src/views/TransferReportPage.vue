@@ -83,7 +83,9 @@
                 background
                 :page-size="reportForm.pageSize"
                 layout="prev, pager, next"
-                :total="totalPages">
+                :total="totalPages"
+                @current-change="onNextPage"
+              >
               </el-pagination>
             </el-row>
           </el-card>
@@ -109,7 +111,7 @@ export default {
         domain: '',
         date: [],
         pageNum: 1,
-        pageSize: 50
+        pageSize: 10
       },
 
       reportData: [],
@@ -122,6 +124,10 @@ export default {
     ])
   },
   methods: {
+    onNextPage (page) {
+      this.reportForm.pageNum = page
+      this.updateReport()
+    },
     updateReport () {
       const { date, ...params } = this.reportForm
 
