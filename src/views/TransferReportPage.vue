@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 import config from '@/data/config'
 import querystring from 'querystring'
@@ -115,6 +116,11 @@ export default {
       totalPages: 0
     }
   },
+  computed: {
+    ...mapGetters([
+      'servicesIPs'
+    ])
+  },
   methods: {
     updateReport () {
       const { date, ...params } = this.reportForm
@@ -132,7 +138,7 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
       const formattedString = querystring.stringify(params)
-      const url = `${config.reportUrl}/report/billing/transferAsset/domain`
+      const url = `${this.servicesIPs['report-service']}/report/billing/transferAsset/domain`
       axios.get(`${url}?${formattedString}`)
         .then(res => {
           this.reportData = res.data.transfers.map(item => {
@@ -147,15 +153,6 @@ export default {
           this.totalPages = res.data.total
         })
         .catch(err => console.log(err))
-        .finally(() => {
-          this.isReportDialogVisible = false
-          this.reportForm = {
-            domain: '',
-            date: [],
-            pageNum: 1,
-            pageSize: 50
-          }
-        })
     }
   }
 }

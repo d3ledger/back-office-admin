@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 import config from '@/data/config'
 import querystring from 'querystring'
@@ -134,6 +135,11 @@ export default {
       total: 0
     }
   },
+  computed: {
+    ...mapGetters([
+      'servicesIPs'
+    ])
+  },
   methods: {
     updateReport () {
       const { date, ...params } = this.reportForm
@@ -154,7 +160,7 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
 
-      const url = `${config.reportUrl}/report/billing/custody/domain`
+      const url = `${this.servicesIPs['report-service']}/report/billing/custody/domain`
       const formattedString = querystring.stringify(params)
 
       axios.get(`${url}?${formattedString}`)
