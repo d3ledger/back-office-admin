@@ -162,7 +162,7 @@ export default {
       params.from = date[0].getTime()
       params.to = date[1].getTime()
 
-      const url = `${this.servicesIPs['report-service']}/report/billing/exchange/domain`
+      const url = `${this.servicesIPs['report-service'].value}/report/billing/exchange/domain`
       const formattedString = querystring.stringify(params)
 
       axios.get(`${url}?${formattedString}`)
