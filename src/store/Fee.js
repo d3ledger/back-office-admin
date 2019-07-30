@@ -271,7 +271,7 @@ const actions = {
 
   getCustomAssets ({ commit, getters }) {
     commit(types.GET_CUSTOM_ASSETS_REQUEST)
-    const dataCollectorUrl = getters.servicesIPs['data-collector-service']
+    const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.getAllAssets(dataCollectorUrl.value)
       .then(res => commit(types.GET_CUSTOM_ASSETS_SUCCESS, res))
       .catch(err => {
