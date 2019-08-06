@@ -49,7 +49,8 @@ function initialState () {
     custodyFee: {},
     accountCreationFee: {},
     exchangeFee: {},
-    withdrawalFee: {}
+    withdrawalFee: {},
+    domain: 'd3'
   }
 }
 
@@ -233,12 +234,12 @@ const mutations = {
 
   [types.GET_FULL_BILLING_DATA_REQUEST] () {},
 
-  [types.GET_FULL_BILLING_DATA_SUCCESS] (state, { response }) {
-    state.transferFee = response.transfer.d3 || {}
-    state.custodyFee = response.custody.d3 || {}
-    state.accountCreationFee = response.accountCreation.d3 || {}
-    state.exchangeFee = response.exchange.d3 || {}
-    state.withdrawalFee = response.withdrawal.d3 || {}
+  [types.GET_FULL_BILLING_DATA_SUCCESS] (state, { response, domain }) {
+    state.transferFee = response.transfer[domain] || {}
+    state.custodyFee = response.custody[domain] || {}
+    state.accountCreationFee = response.accountCreation[domain] || {}
+    state.exchangeFee = response.exchange[domain] || {}
+    state.withdrawalFee = response.withdrawal[domain] || {}
   },
 
   [types.GET_FULL_BILLING_DATA_FAILURE] () {},
@@ -257,9 +258,9 @@ const mutations = {
 }
 
 const actions = {
-  addNetwork ({ commit, state }) {
+  addNetwork ({ commit, state, getters }) {
     commit(types.ADD_NETWORK_REQUEST)
-    const username = state.accountId.split('@')[0]
+    const username = getters.accountId.split('@')[0]
 
     return notaryUtil.signup(username, '')
       .then(() => commit(types.ADD_NETWORK_SUCCESS))
@@ -283,7 +284,7 @@ const actions = {
   setFee ({ commit, state, dispatch, getters }, { privateKeys, asset, amount, type }) {
     commit(types.SET_FEE_REQUEST)
 
-    const accountId = `${type}@d3`
+    const accountId = `${type}@${getters.domain}`
 
     return irohaUtil.setAccountDetail(privateKeys, getters.irohaQuorum, {
       accountId,
@@ -306,7 +307,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return billingUtil.getFullBillingData(dataCollectorUrl)
       .then(response => {
-        commit(types.GET_FULL_BILLING_DATA_SUCCESS, { response })
+        commit(types.GET_FULL_BILLING_DATA_SUCCESS, { response, domain: getters.domain })
       })
       .catch(err => {
         commit(types.GET_FULL_BILLING_DATA_FAILURE)

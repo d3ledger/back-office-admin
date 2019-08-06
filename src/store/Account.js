@@ -48,6 +48,9 @@ const getters = {
   },
   irohaQuorum (state, getters) {
     return getters.accountQuorum
+  },
+  domain (state) {
+    return state.accountId.split('@')[1]
   }
 }
 
