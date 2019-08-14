@@ -18,7 +18,7 @@
                 Refresh
               </el-button>
             </div>
-            <div v-if="!allAccountsExists">
+            <div class="content" v-if="!allAccountsExists">
               <div>
                 To add billing information you should create all billing accounts
               </div>
@@ -237,7 +237,7 @@ export default {
 
     allAccountsExists () {
       return this.transferBillingAccountExists &&
-      this.custodyBillingAccountExists && 
+      this.custodyBillingAccountExists &&
       this.exchangeBillingAccountExists &&
       this.accountCreationBillingAccountExists &&
       this.withdrawalBillingAccountExists
@@ -245,6 +245,7 @@ export default {
   },
 
   created () {
+    this.checkBillingAccounts()
     this.getFullBillingData()
   },
 
@@ -332,10 +333,12 @@ export default {
   align-items: center;
   padding: 1.5rem 1.5rem;
 }
+.content {
+  padding: 1.5rem 1.5rem;
+}
 .action_button {
   border: 1px solid #000000;
   text-transform: uppercase;
-  width: 7rem;
   padding: 0.5rem;
 }
 

@@ -14,7 +14,7 @@ import irohaUtil from '@util/iroha'
 import notaryUtil from '@util/notary-util'
 import collectorUtil from '@util/collector-util'
 import billingUtil from '@util/billing-util'
-import { FeeTypes } from '@data/consts'
+import { FeeTypes } from '@/data/consts'
 
 // TODO: Move it into notary's API so we have the same list
 const ASSETS = require('@util/crypto-list.json')
@@ -374,7 +374,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.TRANSFER}@${getters.domain}`)
       .then(response => {
-        commit(types.CHECK_TRANSFER_BILLING_ACCOUNT_SUCCESS, { response })
+        commit(types.CHECK_TRANSFER_BILLING_ACCOUNT_SUCCESS, response)
       })
       .catch(err => {
         commit(types.CHECK_TRANSFER_BILLING_ACCOUNT_FAILURE)
@@ -385,7 +385,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.CUSTODY}@${getters.domain}`)
       .then(response => {
-        commit(types.CHECK_CUSTODY_BILLING_ACCOUNT_SUCCESS, { response })
+        commit(types.CHECK_CUSTODY_BILLING_ACCOUNT_SUCCESS, response)
       })
       .catch(err => {
         commit(types.CHECK_CUSTODY_BILLING_ACCOUNT_FAILURE)
@@ -396,7 +396,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.EXCHANGE}@${getters.domain}`)
       .then(response => {
-        commit(types.CHECK_EXCHANGE_BILLING_ACCOUNT_SUCCESS, { response })
+        commit(types.CHECK_EXCHANGE_BILLING_ACCOUNT_SUCCESS, response)
       })
       .catch(err => {
         commit(types.CHECK_EXCHANGE_BILLING_ACCOUNT_FAILURE)
@@ -407,7 +407,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.WITHDRAWAL}@${getters.domain}`)
       .then(response => {
-        commit(types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_SUCCESS, { response })
+        commit(types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_SUCCESS, response)
       })
       .catch(err => {
         commit(types.CHECK_WITHDRAWAL_BILLING_ACCOUNT_FAILURE)
@@ -418,7 +418,7 @@ const actions = {
     const dataCollectorUrl = getters.servicesIPs['data-collector-service'].value
     return collectorUtil.checkAccountExists(dataCollectorUrl, `${FeeTypes.ACCOUNT_CREATION}@${getters.domain}`)
       .then(response => {
-        commit(types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_SUCCESS, { response })
+        commit(types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_SUCCESS, response)
       })
       .catch(err => {
         commit(types.CHECK_ACCOUNT_CREATION_BILLING_ACCOUNT_FAILURE)
