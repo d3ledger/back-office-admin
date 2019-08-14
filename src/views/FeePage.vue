@@ -18,7 +18,58 @@
                 Refresh
               </el-button>
             </div>
+            <div class="content" v-if="!allAccountsExists">
+              <div>
+                To add billing information you should create all billing accounts
+              </div>
+              <div>
+                <el-button
+                  v-if="!transferBillingAccountExists"
+                  class="action_button"
+                  @click="() => openRegistrationDialog(FeeTypes.TRANSFER)"
+                >
+                  Add transfer billing account
+                </el-button>
+              </div>
+              <div>
+                <el-button
+                  v-if="!exchangeBillingAccountExists"
+                  class="action_button"
+                  @click="() => openRegistrationDialog(FeeTypes.EXCHANGE)"
+                >
+                  Add exchange billing account
+                </el-button>
+              </div>
+              <div>
+                <el-button
+                  v-if="!withdrawalBillingAccountExists"
+                  class="action_button"
+                  @click="() => openRegistrationDialog(FeeTypes.WITHDRAWAL)"
+                >
+                  Add withdrawal billing account
+                </el-button>
+              </div>
+              <div>
+                <el-button
+                  v-if="!custodyBillingAccountExists"
+                  class="action_button"
+                  @click="() => openRegistrationDialog(FeeTypes.CUSTODY)"
+                >
+                  Add custody billing account
+                </el-button>
+              </div>
+              <div>
+                <el-button
+                  v-if="!accountCreationBillingAccountExists"
+                  class="action_button"
+                  @click="() => openRegistrationDialog(FeeTypes.ACCOUNT_CREATION)"
+                >
+                  Add account creation billing account
+                </el-button>
+              </div>
+            </div>
             <el-table
+              v-else
               :data="availableAssets"
               style="width: 100%"
             >
@@ -176,11 +227,25 @@ export default {
       'custodyFee',
       'accountCreationFee',
       'exchangeFee',
-      'withdrawalFee'
-    ])
+      'withdrawalFee',
+      'transferBillingAccountExists',
+      'custodyBillingAccountExists',
+      'exchangeBillingAccountExists',
+      'accountCreationBillingAccountExists',
+      'withdrawalBillingAccountExists'
+    ]),
+
+    allAccountsExists () {
+      return this.transferBillingAccountExists &&
+      this.custodyBillingAccountExists &&
+      this.exchangeBillingAccountExists &&
+      this.accountCreationBillingAccountExists &&
+      this.withdrawalBillingAccountExists
+    }
   },
 
   created () {
+    this.checkBillingAccounts()
     this.getFullBillingData()
   },
 
@@ -188,8 +253,22 @@ export default {
     ...mapActions([
       'setFee',
       'getFullBillingData',
-      'openApprovalDialog'
+      'openApprovalDialog',
+      'openRegistrationDialog',
+      'checkTransferAccount',
+      'checkExchangeAccount',
+      'checkWithdrawalAccount',
+      'checkCustodyAccount',
+      'checkAccountCreationAccount'
     ]),
+
+    checkBillingAccounts () {
+      this.checkTransferAccount()
+      this.checkExchangeAccount()
+      this.checkWithdrawalAccount()
+      this.checkCustodyAccount()
+      this.checkAccountCreationAccount()
+    },
 
     updateBillingData () {
       this.billingDataUpdating = true
@@ -254,10 +333,12 @@ export default {
   align-items: center;
   padding: 1.5rem 1.5rem;
 }
+.content {
+  padding: 1.5rem 1.5rem;
+}
 .action_button {
   border: 1px solid #000000;
   text-transform: uppercase;
-  width: 7rem;
   padding: 0.5rem;
 }
 
