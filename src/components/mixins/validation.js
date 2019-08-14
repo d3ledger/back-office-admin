@@ -58,6 +58,7 @@ export const _keyDuplication = (keys) => (value) => {
 }
 
 export const _nodeIp = (url) => {
+  if (!url) return false
   let tempAddress = url.slice()
   if (url.includes('http://')) tempAddress = tempAddress.substr(7)
   if (url.includes('https://')) tempAddress = tempAddress.substr(8)

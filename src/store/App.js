@@ -17,7 +17,9 @@ const types = flow(
   concat([
     'RESET',
     'APPROVAL_DIALOG_OPEN',
-    'APPROVAL_DIALOG_CLOSE'
+    'APPROVAL_DIALOG_CLOSE',
+    'REGISTRATION_DIALOG_OPEN',
+    'REGISTRATION_DIALOG_CLOSE'
   ]),
   map(x => [x, x]),
   fromPairs
@@ -37,12 +39,17 @@ function initialState () {
       requiredMinAmount: 1
     },
     health: [],
+    registrationIPs: [],
     nodes: [],
     freeEthRelaysNumber: 0,
     freeBtcRelaysNumber: 0,
     btcRegistrationIp: null,
     ethRegistrationIp: null,
-    services: []
+    services: [],
+    registrationDialog: {
+      isVisible: false,
+      username: ''
+    }
   }
 }
 
@@ -60,6 +67,15 @@ const getters = {
   },
   nodeIPs (state) {
     return state.nodes
+  },
+  registrationIPs (state) {
+    return state.registrationIPs
+  },
+  registrationDialogVisible () {
+    return state.registrationDialog.isVisible
+  },
+  registrationDialogUsername () {
+    return state.registrationDialog.username
   },
   healthNodes (state) {
     return state.health.map(n => ({ ...n, status: '' }))
@@ -115,6 +131,20 @@ const mutations = {
     state.approvalDialog.resolvePrompting(privateKeys)
   },
 
+  [types.REGISTRATION_DIALOG_OPEN] (state, username) {
+    Vue.set(state, 'registrationDialog', {
+      isVisible: true,
+      username
+    })
+  },
+
+  [types.REGISTRATION_DIALOG_CLOSE] (state) {
+    Vue.set(state, 'registrationDialog', {
+      isVisible: false,
+      username: ''
+    })
+  },
+
   [types.GET_FREE_ETH_RELAYS_REQUEST] (state) {},
 
   [types.GET_FREE_ETH_RELAYS_SUCCESS] (state, relays) {
@@ -138,6 +168,7 @@ const mutations = {
   [types.LOAD_CONFIGURATION_FILE_REQUEST] (state) {},
   [types.LOAD_CONFIGURATION_FILE_SUCCESS] (state, config) {
     state.nodes = config.nodes
+    state.registrationIPs = config.registrations
     state.health = config.health
 
     state.btcRegistrationIp = config.relays.BTC.value
@@ -169,6 +200,12 @@ const actions = {
   },
   closeApprovalDialog ({ commit }, privateKeys) {
     commit(types.APPROVAL_DIALOG_CLOSE, privateKeys)
+  },
+  openRegistrationDialog ({ commit }, username) {
+    commit(types.REGISTRATION_DIALOG_OPEN, username)
+  },
+  closeRegistrationDialog ({ commit }) {
+    commit(types.REGISTRATION_DIALOG_CLOSE)
   },
 
   getFreeEthRelaysNumber ({ commit, state }) {
