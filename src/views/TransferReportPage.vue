@@ -140,8 +140,9 @@ export default {
         return
       }
 
-      params.from = date[0].getTime()
-      params.to = date[1].getTime()
+      params.from = (Number.isInteger(date[0]) ? new Date(date[0]) : date[0]).getTime()
+      params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
+
       const formattedString = querystring.stringify(params)
       const url = `${this.servicesIPs['report-service'].value}/report/billing/transferAsset/domain`
       axios.get(`${url}?${formattedString}`)
