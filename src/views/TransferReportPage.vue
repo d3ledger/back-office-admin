@@ -144,8 +144,11 @@ export default {
       params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
 
       const formattedString = querystring.stringify(params)
-      const url = `${this.servicesIPs['report-service'].value}/report/billing/transferAsset/domain`
-      axios.get(`${url}?${formattedString}`)
+
+      axios({
+        url: `/report/billing/transferAsset/domain?${formattedString}`,
+        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
+      })
         .then(res => {
           this.reportData = res.data.transfers.map(item => {
             let data = {}
