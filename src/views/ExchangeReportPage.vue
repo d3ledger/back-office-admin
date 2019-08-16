@@ -159,10 +159,12 @@ export default {
       params.from = (Number.isInteger(date[0]) ? new Date(date[0]) : date[0]).getTime()
       params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
 
-      const url = `${this.servicesIPs['report-service'].value}/report/billing/exchange/domain`
       const formattedString = querystring.stringify(params)
 
-      axios.get(`${url}?${formattedString}`)
+      axios({
+        url: `/report/billing/exchange/domain?${formattedString}`,
+        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
+      })
         .then(res => {
           this.reportByUser = res.data.batches.map(item => {
             const data = {}

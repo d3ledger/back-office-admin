@@ -123,10 +123,12 @@ export default {
       params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
 
       // TODO: Fix to search by domain
-      const url = `${this.servicesIPs['report-service'].value}/report/billing/registeredAccounts/system`
       const formattedString = querystring.stringify(params)
 
-      axios.get(`${url}?${formattedString}`)
+      axios({
+        url: `/report/billing/registeredAccounts/system?${formattedString}`,
+        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
+      })
         .then(res => {
           const data = res.data.accounts
           this.reportData = data

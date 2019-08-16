@@ -161,10 +161,12 @@ export default {
       params.from = (Number.isInteger(date[0]) ? new Date(date[0]) : date[0]).getTime()
       params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
 
-      const url = `${this.servicesIPs['report-service'].value}/report/billing/custody/domain`
       const formattedString = querystring.stringify(params)
 
-      axios.get(`${url}?${formattedString}`)
+      axios({
+        url: `/report/billing/custody/domain?${formattedString}`,
+        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
+      })
         .then(res => {
           const data = res.data.accounts.map(item => {
             item.assetCustody = Object.entries(item.assetCustody)
