@@ -79,7 +79,7 @@ const getTransactions = ({
   txHashes
 }) => queries.getTransactions(
   newQueryServiceOptions(), {
-    transactionsHashes: txHashes
+    txHashesList: txHashes
   }
 )
 
