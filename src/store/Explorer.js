@@ -157,18 +157,22 @@ const actions = {
       firstTxHash: undefined
     })
       .then(response => {
-        irohaUtil.getAccountTransactions({
-          accountId,
-          pageSize: response.allTransactionsSize,
-          firstTxHash: undefined
-        })
-          .then(result => {
-            commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, result.transactionsList)
+        if (response.allTransactionsSize > 0) {
+          irohaUtil.getAccountTransactions({
+            accountId,
+            pageSize: response.allTransactionsSize,
+            firstTxHash: undefined
           })
-          .catch(err => {
-            commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_FAILURE, err)
-            throw err
-          })
+            .then(result => {
+              commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, result.transactionsList)
+            })
+            .catch(err => {
+              commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_FAILURE, err)
+              throw err
+            })
+        } else {
+          commit(types.SEARCH_TRANSACTIONS_BY_ACCOUNT_ID_SUCCESS, [])
+        }
       })
   },
 
