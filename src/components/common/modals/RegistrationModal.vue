@@ -191,7 +191,7 @@ export default {
       this.selectRegistrationIp()
 
       this.signupWithKey({
-        username: this.registrationDialogUsername,
+        username: `${this.registrationDialogUsername}@${this.domain}`,
         publicKey: this.form.publicKey
       })
         .then(() => {
