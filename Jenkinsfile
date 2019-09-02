@@ -28,7 +28,5 @@ pipeline {
         cleanup {
             cleanWs()
         }
-      }
     }
-  }
 }
