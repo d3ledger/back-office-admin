@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     docker_tag = env.TAG_NAME ? env.TAG_NAME : tag[env.GIT_BRANCH]
-                    def iC = docker.build("nexus.iroha.tech:19002/d3-deploy/back-office-admin:${tag[env.GIT_BRANCH]}")
+                    def iC = docker.build("nexus.iroha.tech:19002/d3-deploy/back-office-admin:${docker_tag}")
                     docker.withRegistry('https://nexus.iroha.tech:19002', 'nexus-d3-docker') {
                         iC.push()
                     }
