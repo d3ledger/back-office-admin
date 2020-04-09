@@ -6,9 +6,20 @@ import axios from 'axios'
 
 const PROTOCOL = location.protocol
 
-const axiosNotary = axios.create({
+const axiosNotaryRegistration = axios.create({
   baseURL: ''
 })
+
+const signup = axios => (name, publicKey) => {
+  // Unfortunately, server awaits for formData, and it is the only way to provide it.
+  let postData = new FormData()
+  postData.append('name', name)
+  postData.append('pubkey', publicKey)
+
+  return axios
+    .post('users', postData)
+    .then(({ data }) => ({ response: data }))
+}
 
 const getFreeRelaysNumber = (url) => {
   return axios({
@@ -18,17 +29,11 @@ const getFreeRelaysNumber = (url) => {
     .then(({ data }) => data)
 }
 
-const addNewRelay = axios => () => {
-  return axios
-    .post()
-    .then(({ data }) => ({ response: data }))
-}
-
 export default {
-  get baseURL () { return axiosNotary.defaults.baseURL },
+  get baseURL () { return axiosNotaryRegistration.defaults.baseURL },
   set baseURL (baseURL) {
-    axiosNotary.defaults.baseURL = `${PROTOCOL}//${baseURL}`
+    axiosNotaryRegistration.defaults.baseURL = `${PROTOCOL}//${baseURL}`
   },
-  addNewRelay: addNewRelay(axiosNotary),
+  signup: signup(axiosNotaryRegistration),
   getFreeRelaysNumber
 }

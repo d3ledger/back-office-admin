@@ -9,6 +9,10 @@
     "value": "localhost:8083",
     "label": "Local Node 3"
   }],
+  "registrations": [{
+    "value": "localhost:8085",
+    "label": "Notary registration"
+  }],
   "health": [{
       "title": "Bitcoin Registration",
       "url": "localhost:8086/actuator/health"
@@ -45,6 +49,9 @@
   "services": {
     "data-collector-service": {
       "value": "localhost:8087"
+    },
+    "report-service": {
+      "value": "localhost:8090"
     }
   }
 }

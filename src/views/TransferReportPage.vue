@@ -37,7 +37,7 @@
                     <el-form-item label="Date">
                       <el-date-picker
                         v-model="reportForm.date"
-                        type="daterange"
+                        type="datetimerange"
                         range-separator="-"
                         start-placeholder="Start date"
                         end-placeholder="End date"
@@ -83,7 +83,9 @@
                 background
                 :page-size="reportForm.pageSize"
                 layout="prev, pager, next"
-                :total="totalPages">
+                :total="totalPages"
+                @current-change="onNextPage"
+              >
               </el-pagination>
             </el-row>
           </el-card>
@@ -94,8 +96,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
-import config from '@/data/config'
 import querystring from 'querystring'
 
 export default {
@@ -106,16 +108,25 @@ export default {
 
       reportForm: {
         domain: '',
-        date: [],
+        date: [new Date().getTime() - 3600 * 1000 * 24, new Date()],
         pageNum: 1,
-        pageSize: 50
+        pageSize: 10
       },
 
       reportData: [],
       totalPages: 0
     }
   },
+  computed: {
+    ...mapGetters([
+      'servicesIPs'
+    ])
+  },
   methods: {
+    onNextPage (page) {
+      this.reportForm.pageNum = page
+      this.updateReport()
+    },
     updateReport () {
       const { date, ...params } = this.reportForm
 
@@ -129,11 +140,15 @@ export default {
         return
       }
 
-      params.from = date[0].getTime()
-      params.to = date[1].getTime()
+      params.from = (Number.isInteger(date[0]) ? new Date(date[0]) : date[0]).getTime()
+      params.to = (Number.isInteger(date[1]) ? new Date(date[1]) : date[1]).getTime()
+
       const formattedString = querystring.stringify(params)
-      const url = `${config.reportUrl}/report/billing/transferAsset/domain`
-      axios.get(`${url}?${formattedString}`)
+
+      axios({
+        url: `/report/billing/transferAsset/domain?${formattedString}`,
+        baseURL: `${location.protocol}//${this.servicesIPs['report-service'].value}`
+      })
         .then(res => {
           this.reportData = res.data.transfers.map(item => {
             let data = {}
@@ -147,15 +162,6 @@ export default {
           this.totalPages = res.data.total
         })
         .catch(err => console.log(err))
-        .finally(() => {
-          this.isReportDialogVisible = false
-          this.reportForm = {
-            domain: '',
-            date: [],
-            pageNum: 1,
-            pageSize: 50
-          }
-        })
     }
   }
 }

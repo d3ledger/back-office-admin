@@ -9,6 +9,7 @@
       <router-view />
     </el-main>
     <confirm-modal />
+    <registration-modal />
   </el-container>
 </template>
 
@@ -19,7 +20,8 @@ export default {
   name: 'home-page',
   components: {
     Menu: lazyComponent('Home/Menu'),
-    ConfirmModal: lazyComponent('common/modals/ConfirmModal')
+    ConfirmModal: lazyComponent('common/modals/ConfirmModal'),
+    RegistrationModal: lazyComponent('common/modals/RegistrationModal')
   },
   data () {
     return {}
